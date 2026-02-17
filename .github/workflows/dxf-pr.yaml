@@ -1,0 +1,24 @@
+# DXF PR validation: unit tests + reviewable check.
+# Simplified from upstream pr-test.yaml: skips license checks.
+
+name: DXF PR Checks
+
+on:
+  pull_request:
+    types:
+    - opened
+    - reopened
+    - synchronize
+    - ready_for_review
+    paths-ignore:
+      - '*.md'
+
+permissions:
+  contents: read
+
+jobs:
+  run-unit-test:
+    uses: ./.github/workflows/unit_test.yaml
+
+  run-make-reviewable-and-check-diff:
+    uses: ./.github/workflows/reviewable_check_diff.yaml
