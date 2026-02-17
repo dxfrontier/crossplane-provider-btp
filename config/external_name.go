@@ -9,6 +9,7 @@ import "github.com/crossplane/upjet/pkg/config"
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
+	"btp_subaccount":                        config.IdentifierFromProvider,
 	"btp_subaccount_trust_configuration":    config.IdentifierFromProvider,
 	"btp_globalaccount_trust_configuration": config.IdentifierFromProvider,
 	"btp_directory_entitlement":             config.IdentifierFromProvider,

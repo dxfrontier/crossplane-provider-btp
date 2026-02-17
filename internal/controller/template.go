@@ -13,7 +13,6 @@ import (
 	"github.com/sap/crossplane-provider-btp/internal/controller/account/globalaccount"
 	"github.com/sap/crossplane-provider-btp/internal/controller/account/resourceusage"
 	"github.com/sap/crossplane-provider-btp/internal/controller/account/servicemanager"
-	"github.com/sap/crossplane-provider-btp/internal/controller/account/subaccount"
 	"github.com/sap/crossplane-provider-btp/internal/controller/account/subscription"
 	"github.com/sap/crossplane-provider-btp/internal/controller/environment/cloudfoundry"
 
@@ -30,7 +29,6 @@ import (
 func CustomSetup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		globalaccount.Setup,
-		subaccount.Setup,
 		cloudfoundry.Setup,
 		kyma.Setup,
 		entitlement.Setup,
