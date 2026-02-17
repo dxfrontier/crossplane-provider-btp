@@ -2,6 +2,7 @@ package subaccount
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"reflect"
 	"testing"
@@ -1987,3 +1988,142 @@ func create409Error() error {
 	return err
 }
 
+func TestCreatePasswordGrantAccountsClient(t *testing.T) {
+	tests := map[string]struct {
+		reason  string
+		cred    *btp.Credentials
+		wantErr bool
+		wantNil bool
+	}{
+		"ValidCredentials": {
+			reason: "Should create a valid API client with correct credentials",
+			cred: func() *btp.Credentials {
+				cisCred := &btp.CISCredential{}
+				json.Unmarshal([]byte(`{
+					"endpoints": {"accounts_service_url": "https://accounts.example.com"},
+					"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
+				}`), cisCred)
+				return &btp.Credentials{
+					UserCredential: &btp.UserCredential{
+						Email:    "user@example.com",
+						Password: "pass",
+						Idp:      "custom-idp",
+					},
+					CISCredential: cisCred,
+				}
+			}(),
+			wantErr: false,
+			wantNil: false,
+		},
+		"EmptyAccountsUrl": {
+			reason: "Should still create client even with empty accounts URL (url.Parse succeeds)",
+			cred: func() *btp.Credentials {
+				cisCred := &btp.CISCredential{}
+				json.Unmarshal([]byte(`{
+					"endpoints": {"accounts_service_url": ""},
+					"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
+				}`), cisCred)
+				return &btp.Credentials{
+					UserCredential: &btp.UserCredential{
+						Email:    "user@example.com",
+						Password: "pass",
+						Idp:      "custom-idp",
+					},
+					CISCredential: cisCred,
+				}
+			}(),
+			wantErr: false,
+			wantNil: false,
+		},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			client, err := createPasswordGrantAccountsClient(tc.cred)
+			if (err != nil) != tc.wantErr {
+				t.Errorf("\n%s\ncreatePasswordGrantAccountsClient(): error = %v, wantErr %v", tc.reason, err, tc.wantErr)
+			}
+			if (client == nil) != tc.wantNil {
+				t.Errorf("\n%s\ncreatePasswordGrantAccountsClient(): client = %v, wantNil %v", tc.reason, client, tc.wantNil)
+			}
+		})
+	}
+}
+
+func TestCreateWithCustomIdpOrigin(t *testing.T) {
+	// Verify that when Credential.UserCredential.Idp is set,
+	// createBTPSubaccount attempts to use the password-grant client.
+	// The password-grant client will fail at token fetch (fake URL),
+	// and we verify the error is propagated (not a panic).
+	cisCred := &btp.CISCredential{}
+	json.Unmarshal([]byte(`{
+		"endpoints": {"accounts_service_url": "https://accounts.example.com"},
+		"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
+	}`), cisCred)
+
+	ctrl := external{
+		btp: btp.Client{
+			AccountsServiceClient: &accountclient.APIClient{
+				SubaccountOperationsAPI: &MockSubaccountClient{
+					returnSubaccount: &accountclient.SubaccountResponseObject{
+						Guid:         "123",
+						StateMessage: internal.Ptr("Success"),
+					},
+				},
+			},
+			Credential: &btp.Credentials{
+				UserCredential: &btp.UserCredential{
+					Email:    "provisioning@local-dx.com",
+					Password: "pass",
+					Idp:      "arrevqqkn-platform",
+				},
+				CISCredential: cisCred,
+			},
+		},
+	}
+
+	cr := NewSubaccount("unittest-sa")
+	_, err := ctrl.Create(context.Background(), cr)
+
+	// The password-grant client is created successfully but will fail during
+	// Execute() because the token URL is fake. We expect an error here.
+	if err == nil {
+		t.Error("Expected error from password-grant client (fake token URL), got nil")
+	}
+}
+
+func TestCreateWithoutIdpUsesDefaultClient(t *testing.T) {
+	// Verify that without IDP, the default CIS client is used (existing mock works)
+	ctrl := external{
+		btp: btp.Client{
+			AccountsServiceClient: &accountclient.APIClient{
+				SubaccountOperationsAPI: &MockSubaccountClient{
+					returnSubaccount: &accountclient.SubaccountResponseObject{
+						Guid:         "123",
+						StateMessage: internal.Ptr("Success"),
+					},
+				},
+			},
+			Credential: &btp.Credentials{
+				UserCredential: &btp.UserCredential{
+					Email:    "provisioning@local-dx.com",
+					Password: "pass",
+					Idp:      "", // No IDP - should use default client
+				},
+				CISCredential: &btp.CISCredential{
+					GrantType: "client_credentials",
+				},
+			},
+		},
+	}
+
+	cr := NewSubaccount("unittest-sa")
+	got, err := ctrl.Create(context.Background(), cr)
+
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if diff := cmp.Diff(managed.ExternalCreation{ConnectionDetails: managed.ConnectionDetails{}}, got); diff != "" {
+		t.Errorf("Create(...): -want, +got:\n%s", diff)
+	}
+}

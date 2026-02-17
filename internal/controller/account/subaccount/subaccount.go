@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/url"
 	"reflect"
 	"strings"
 
@@ -13,6 +14,7 @@ import (
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	"golang.org/x/oauth2/clientcredentials"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -396,13 +398,31 @@ func (c *external) createBTPSubaccount(
 	ctx context.Context, subaccount *apisv1alpha1.Subaccount,
 ) error {
 	ctrl.Log.Info(fmt.Sprintf("Creating subaccount: %s", subaccount.Name))
-	createdSubaccount, resp, err := c.btp.AccountsServiceClient.SubaccountOperationsAPI.
+
+	// Default: use CIS client_credentials
+	accountsAPI := c.btp.AccountsServiceClient.SubaccountOperationsAPI
+
+	// Fix #502: If custom IDP is configured, use password grant so that
+	// subaccountAdmins resolves from the correct identity provider
+	if c.btp.Credential != nil &&
+		c.btp.Credential.UserCredential != nil &&
+		c.btp.Credential.UserCredential.Idp != "" {
+		pwClient, err := createPasswordGrantAccountsClient(c.btp.Credential)
+		if err != nil {
+			ctrl.Log.Info(fmt.Sprintf("password-grant client failed, falling back to CIS: %v", err))
+		} else {
+			ctrl.Log.Info(fmt.Sprintf("Using password grant with IDP origin '%s' for subaccount creation", c.btp.Credential.UserCredential.Idp))
+			accountsAPI = pwClient.SubaccountOperationsAPI
+		}
+	}
+
+	createdSubaccount, resp, err := accountsAPI.
 		CreateSubaccount(ctx).
 		CreateSubaccountRequestPayload(toCreateApiPayload(subaccount)).
 		Execute()
 	if err != nil {
 		// Check if error is "resource already exists"
-		if resp.StatusCode == http.StatusConflict {
+		if resp != nil && resp.StatusCode == http.StatusConflict {
 			// ADR: Do NOT set external-name, stay in error loop
 			// User must set external-name manually to resolve
 			return errors.Wrap(err, "creation failed - resource already exists. Please set external-name annotation to adopt the existing resource")
@@ -421,6 +441,38 @@ func (c *external) createBTPSubaccount(
 	meta.SetExternalName(subaccount, guid)
 
 	return nil
+}
+
+// createPasswordGrantAccountsClient creates an accounts service API client
+// that authenticates with password grant + IDP origin. This ensures that
+// subaccountAdmins resolves from the correct identity provider.
+func createPasswordGrantAccountsClient(cred *btp.Credentials) (*accountclient.APIClient, error) {
+	uaa := cred.CISCredential.Uaa
+
+	params := url.Values{
+		"grant_type": {"password"},
+		"username":   {cred.UserCredential.Email},
+		"password":   {cred.UserCredential.Password},
+		"origin":     {cred.UserCredential.Idp},
+	}
+
+	config := &clientcredentials.Config{
+		ClientID:       uaa.Clientid,
+		ClientSecret:   uaa.Clientsecret,
+		TokenURL:       uaa.Url + "/oauth/token",
+		EndpointParams: params,
+	}
+
+	accountServiceUrl, err := url.Parse(cred.CISCredential.Endpoints.AccountsServiceUrl)
+	if err != nil {
+		return nil, err
+	}
+
+	c := accountclient.NewConfiguration()
+	c.HTTPClient = config.Client(btp.NewBackgroundContextWithDebugPrintHTTPClient())
+	c.Servers = []accountclient.ServerConfiguration{{URL: accountServiceUrl.String()}}
+
+	return accountclient.NewAPIClient(c), nil
 }
 
 // In earlier versions, the name of the subaccoung was used as the external-name.
