@@ -8,10 +8,5 @@ func (md *Directory) GetExternalID() string {
 	return *md.Spec.ForProvider.DisplayName
 }
 
-func (ms *Subaccount) SetExternalID(newID string) {
-	ms.Spec.ForProvider.DisplayName = newID
-	ms.Spec.ForProvider.Subdomain = newID
-}
-func (ms *Subaccount) GetExternalID() string {
-	return ms.Spec.ForProvider.DisplayName
-}
+// NOTE: Subaccount external ID functions removed — upjet-generated type uses *string fields.
+// After `make generate`, update if the Tested interface is still needed.

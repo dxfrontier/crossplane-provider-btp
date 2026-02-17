@@ -311,36 +311,36 @@ func (mg *Subaccount) ResolveReferences(ctx context.Context, c client.Reader) er
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: mg.Spec.ForProvider.GlobalAccountGuid,
-		Extract:      GlobalAccountUuid(),
-		Reference:    mg.Spec.ForProvider.GlobalAccountRef,
-		Selector:     mg.Spec.ForProvider.GlobalAccountSelector,
-		To: reference.To{
-			List:    &GlobalAccountList{},
-			Managed: &GlobalAccount{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.GlobalAccountGuid")
-	}
-	mg.Spec.ForProvider.GlobalAccountGuid = rsp.ResolvedValue
-	mg.Spec.ForProvider.GlobalAccountRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		CurrentValue: mg.Spec.ForProvider.DirectoryGuid,
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ParentID),
 		Extract:      DirectoryUuid(),
-		Reference:    mg.Spec.ForProvider.DirectoryRef,
-		Selector:     mg.Spec.ForProvider.DirectorySelector,
+		Reference:    mg.Spec.ForProvider.ParentRef,
+		Selector:     mg.Spec.ForProvider.ParentSelector,
 		To: reference.To{
 			List:    &DirectoryList{},
 			Managed: &Directory{},
 		},
 	})
 	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.DirectoryGuid")
+		return errors.Wrap(err, "mg.Spec.ForProvider.ParentID")
 	}
-	mg.Spec.ForProvider.DirectoryGuid = rsp.ResolvedValue
-	mg.Spec.ForProvider.DirectoryRef = rsp.ResolvedReference
+	mg.Spec.ForProvider.ParentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ParentID),
+		Extract:      DirectoryUuid(),
+		Reference:    mg.Spec.InitProvider.ParentRef,
+		Selector:     mg.Spec.InitProvider.ParentSelector,
+		To: reference.To{
+			List:    &DirectoryList{},
+			Managed: &Directory{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ParentID")
+	}
+	mg.Spec.InitProvider.ParentID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ParentRef = rsp.ResolvedReference
 
 	return nil
 }

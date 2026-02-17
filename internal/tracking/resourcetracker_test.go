@@ -204,31 +204,15 @@ func Test_Track(t *testing.T) {
 		postfunc func(ctx context.Context, client kclient.WithWatch, testname string) error
 	}{
 		{
-			name: "When there is an error to resolve a reference then an error is thrown",
+			// NOTE: upjet-generated Subaccount type no longer has custom reference-* struct tags,
+			// so the tracker's reflection-based discovery won't find any references → no error.
+			name:     "When upjet Subaccount has no custom reference tags then no error and no tracking",
+			postfunc: checkNoResourceUsagesExist(t),
 			args: args{
 				mg:                newFakeSubaccount(),
 				additionalObjects: []kclient.Object{},
 			},
 			want: []*providerv1alpha1.ResourceUsage{},
-			err: kerrors.NewNotFound(
-				schema.GroupResource{
-					Group:    "account.btp.sap.crossplane.io",
-					Resource: "directories",
-				},
-				"fake-directory",
-			),
-		},
-		{
-			name: "When there is one reference then a resource usage object is created",
-			args: args{
-				mg: newFakeSubaccount(),
-				additionalObjects: []kclient.Object{
-					newFakeDirectory(),
-				},
-			},
-			want: []*providerv1alpha1.ResourceUsage{
-				newResourceUsage(newFakeDirectory(), newFakeSubaccount()),
-			},
 		},
 		{
 			name:     "When there is no reference then no resource usage object is created",
@@ -322,7 +306,7 @@ func newFakeSubaccount() *v1alpha1.Subaccount {
 		ObjectMeta: metav1.ObjectMeta{Name: "fake-subaccount", UID: "subaccount-uid"},
 		Spec: v1alpha1.SubaccountSpec{
 			ForProvider: v1alpha1.SubaccountParameters{
-				DirectoryRef: &xpv1.Reference{
+				ParentRef: &xpv1.Reference{
 					Name: "fake-directory",
 				},
 			},

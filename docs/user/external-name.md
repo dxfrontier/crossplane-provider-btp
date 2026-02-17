@@ -31,12 +31,3 @@ metadata.annotations.crossplane.io/external-name: <resource_uniq_ID>
 
   - UI: Global Account → Account Explorer → Directories → [Select Directory] → Directory ID
   - CLI: btp list accounts/directory (field: guid)
-
-### Subaccount
-
-- Follows Standard: yes
-- Format: Subaccount GUID (UUID format)
-- How to find:
-
-  - UI: Global Account → Account Explorer → Subaccounts → [Select Subaccount] → Subaccount ID
-  - CLI: btp list accounts/subaccount (field: guid)
