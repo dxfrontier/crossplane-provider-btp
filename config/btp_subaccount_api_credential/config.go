@@ -89,7 +89,7 @@ func (d *DeletionProtectionInitializer) Initialize(ctx context.Context, mg resou
 	if cr.Spec.ForProvider.SubaccountID != nil {
 
 		// Use a custom reference tracker to track the subaccount reference
-		err := referenceTracker.CreateTrackingReference(ctx, cr, *cr.Spec.ForProvider.SubaccountRef, accountsv1alpha1.SubaccountGroupVersionKind)
+		err := referenceTracker.CreateTrackingReference(ctx, cr, *cr.Spec.ForProvider.SubaccountRef, accountsv1alpha1.Subaccount_GroupVersionKind)
 
 		if err != nil {
 			return errors.Wrap(err, errTrackRUsage)
