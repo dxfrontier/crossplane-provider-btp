@@ -1988,6 +1988,16 @@ func create409Error() error {
 	return err
 }
 
+// newTestCISCredential creates a CISCredential from JSON for testing.
+func newTestCISCredential(t *testing.T, jsonData string) *btp.CISCredential {
+	t.Helper()
+	cisCred := &btp.CISCredential{}
+	if err := json.Unmarshal([]byte(jsonData), cisCred); err != nil {
+		t.Fatalf("failed to unmarshal test CIS credential: %v", err)
+	}
+	return cisCred
+}
+
 func TestCreatePasswordGrantAccountsClient(t *testing.T) {
 	tests := map[string]struct {
 		reason  string
@@ -1997,41 +2007,11 @@ func TestCreatePasswordGrantAccountsClient(t *testing.T) {
 	}{
 		"ValidCredentials": {
 			reason: "Should create a valid API client with correct credentials",
-			cred: func() *btp.Credentials {
-				cisCred := &btp.CISCredential{}
-				json.Unmarshal([]byte(`{
-					"endpoints": {"accounts_service_url": "https://accounts.example.com"},
-					"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
-				}`), cisCred)
-				return &btp.Credentials{
-					UserCredential: &btp.UserCredential{
-						Email:    "user@example.com",
-						Password: "pass",
-						Idp:      "custom-idp",
-					},
-					CISCredential: cisCred,
-				}
-			}(),
 			wantErr: false,
 			wantNil: false,
 		},
 		"EmptyAccountsUrl": {
 			reason: "Should still create client even with empty accounts URL (url.Parse succeeds)",
-			cred: func() *btp.Credentials {
-				cisCred := &btp.CISCredential{}
-				json.Unmarshal([]byte(`{
-					"endpoints": {"accounts_service_url": ""},
-					"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
-				}`), cisCred)
-				return &btp.Credentials{
-					UserCredential: &btp.UserCredential{
-						Email:    "user@example.com",
-						Password: "pass",
-						Idp:      "custom-idp",
-					},
-					CISCredential: cisCred,
-				}
-			}(),
 			wantErr: false,
 			wantNil: false,
 		},
@@ -2039,7 +2019,31 @@ func TestCreatePasswordGrantAccountsClient(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			client, err := createPasswordGrantAccountsClient(tc.cred)
+			var cred *btp.Credentials
+			switch name {
+			case "ValidCredentials":
+				cred = &btp.Credentials{
+					UserCredential: &btp.UserCredential{
+						Email: "user@example.com", Password: "pass", Idp: "custom-idp",
+					},
+					CISCredential: newTestCISCredential(t, `{
+						"endpoints": {"accounts_service_url": "https://accounts.example.com"},
+						"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
+					}`),
+				}
+			case "EmptyAccountsUrl":
+				cred = &btp.Credentials{
+					UserCredential: &btp.UserCredential{
+						Email: "user@example.com", Password: "pass", Idp: "custom-idp",
+					},
+					CISCredential: newTestCISCredential(t, `{
+						"endpoints": {"accounts_service_url": ""},
+						"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
+					}`),
+				}
+			}
+
+			client, err := createPasswordGrantAccountsClient(cred)
 			if (err != nil) != tc.wantErr {
 				t.Errorf("\n%s\ncreatePasswordGrantAccountsClient(): error = %v, wantErr %v", tc.reason, err, tc.wantErr)
 			}
@@ -2055,11 +2059,10 @@ func TestCreateWithCustomIdpOrigin(t *testing.T) {
 	// createBTPSubaccount attempts to use the password-grant client.
 	// The password-grant client will fail at token fetch (fake URL),
 	// and we verify the error is propagated (not a panic).
-	cisCred := &btp.CISCredential{}
-	json.Unmarshal([]byte(`{
+	cisCred := newTestCISCredential(t, `{
 		"endpoints": {"accounts_service_url": "https://accounts.example.com"},
 		"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
-	}`), cisCred)
+	}`)
 
 	ctrl := external{
 		btp: btp.Client{
