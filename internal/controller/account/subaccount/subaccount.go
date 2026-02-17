@@ -396,9 +396,14 @@ func (c *external) createBTPSubaccount(
 	ctx context.Context, subaccount *apisv1alpha1.Subaccount,
 ) error {
 	ctrl.Log.Info(fmt.Sprintf("Creating subaccount: %s", subaccount.Name))
+	origin := ""
+	if c.btp.Credential != nil && c.btp.Credential.UserCredential != nil {
+		origin = c.btp.Credential.UserCredential.Idp
+	}
+
 	createdSubaccount, resp, err := c.btp.AccountsServiceClient.SubaccountOperationsAPI.
 		CreateSubaccount(ctx).
-		CreateSubaccountRequestPayload(toCreateApiPayload(subaccount)).
+		CreateSubaccountRequestPayload(toCreateApiPayload(subaccount, origin)).
 		Execute()
 	if err != nil {
 		// Check if error is "resource already exists"
@@ -467,12 +472,12 @@ func isRelatedAccount(subaccount *apisv1alpha1.Subaccount, account *accountclien
 	) == 0 && strings.Compare(subaccount.Spec.ForProvider.Region, account.Region) == 0
 }
 
-func toCreateApiPayload(subaccount *apisv1alpha1.Subaccount) accountclient.CreateSubaccountRequestPayload {
+func toCreateApiPayload(subaccount *apisv1alpha1.Subaccount, origin string) accountclient.CreateSubaccountRequestPayload {
 	subaccountSpec := subaccount.Spec
 
 	label := addOperatorLabel(subaccount)
 
-	return accountclient.CreateSubaccountRequestPayload{
+	payload := accountclient.CreateSubaccountRequestPayload{
 		BetaEnabled:       &subaccountSpec.ForProvider.BetaEnabled,
 		Description:       &subaccountSpec.ForProvider.Description,
 		DisplayName:       subaccountSpec.ForProvider.DisplayName,
@@ -483,6 +488,14 @@ func toCreateApiPayload(subaccount *apisv1alpha1.Subaccount) accountclient.Creat
 		UsedForProduction: &subaccountSpec.ForProvider.UsedForProduction,
 		ParentGUID:        &subaccountSpec.ForProvider.DirectoryGuid,
 	}
+
+	// Fix #502: Pass IDP origin so subaccountAdmins are resolved from the
+	// correct identity provider instead of defaulting to sap.default.
+	if origin != "" {
+		payload.Origin = &origin
+	}
+
+	return payload
 }
 
 func addOperatorLabel(subaccount *apisv1alpha1.Subaccount) map[string][]string {
