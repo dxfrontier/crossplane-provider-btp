@@ -32,17 +32,17 @@ func DirectoryUuid() reference.ExtractValueFn {
 	}
 }
 
-// SubaccountUuid Global Account UUID extractor function
+// SubaccountUuid extracts the Subaccount ID (UUID) from status.atProvider.id
 func SubaccountUuid() reference.ExtractValueFn {
 	return func(mg resource.Managed) string {
 		sg, ok := mg.(*Subaccount)
 		if !ok {
 			return ""
 		}
-		if sg.Status.AtProvider.SubaccountGuid == nil {
+		if sg.Status.AtProvider.ID == nil {
 			return ""
 		}
-		return *sg.Status.AtProvider.SubaccountGuid
+		return *sg.Status.AtProvider.ID
 	}
 }
 
