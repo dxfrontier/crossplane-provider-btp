@@ -1999,48 +1999,31 @@ func newTestCISCredential(t *testing.T, jsonData string) *btp.CISCredential {
 }
 
 func TestCreatePasswordGrantAccountsClient(t *testing.T) {
+	// With token pre-fetch, createPasswordGrantAccountsClient always fails
+	// with fake UAA URLs because the token fetch cannot reach the server.
+	// This validates that the function returns an error (enabling fallback).
 	tests := map[string]struct {
 		reason  string
-		cred    *btp.Credentials
 		wantErr bool
 		wantNil bool
 	}{
-		"ValidCredentials": {
-			reason: "Should create a valid API client with correct credentials",
-			wantErr: false,
-			wantNil: false,
-		},
-		"EmptyAccountsUrl": {
-			reason: "Should still create client even with empty accounts URL (url.Parse succeeds)",
-			wantErr: false,
-			wantNil: false,
+		"FakeUaaReturnsError": {
+			reason:  "Should return error because token pre-fetch fails with fake UAA URL",
+			wantErr: true,
+			wantNil: true,
 		},
 	}
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			var cred *btp.Credentials
-			switch name {
-			case "ValidCredentials":
-				cred = &btp.Credentials{
-					UserCredential: &btp.UserCredential{
-						Email: "user@example.com", Password: "pass", Idp: "custom-idp",
-					},
-					CISCredential: newTestCISCredential(t, `{
-						"endpoints": {"accounts_service_url": "https://accounts.example.com"},
-						"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
-					}`),
-				}
-			case "EmptyAccountsUrl":
-				cred = &btp.Credentials{
-					UserCredential: &btp.UserCredential{
-						Email: "user@example.com", Password: "pass", Idp: "custom-idp",
-					},
-					CISCredential: newTestCISCredential(t, `{
-						"endpoints": {"accounts_service_url": ""},
-						"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
-					}`),
-				}
+			cred := &btp.Credentials{
+				UserCredential: &btp.UserCredential{
+					Email: "user@example.com", Password: "pass", Idp: "custom-idp",
+				},
+				CISCredential: newTestCISCredential(t, `{
+					"endpoints": {"accounts_service_url": "https://accounts.example.com"},
+					"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
+				}`),
 			}
 
 			client, err := createPasswordGrantAccountsClient(cred)
@@ -2057,8 +2040,8 @@ func TestCreatePasswordGrantAccountsClient(t *testing.T) {
 func TestCreateWithCustomIdpOrigin(t *testing.T) {
 	// Verify that when Credential.UserCredential.Idp is set,
 	// createBTPSubaccount attempts to use the password-grant client.
-	// The password-grant client will fail at token fetch (fake URL),
-	// and we verify the error is propagated (not a panic).
+	// With token pre-fetch, the password-grant client fails at creation
+	// (fake UAA URL), so the code falls back to the default CIS mock client.
 	cisCred := newTestCISCredential(t, `{
 		"endpoints": {"accounts_service_url": "https://accounts.example.com"},
 		"uaa": {"clientid": "cid", "clientsecret": "cs", "url": "https://uaa.example.com"}
@@ -2086,12 +2069,15 @@ func TestCreateWithCustomIdpOrigin(t *testing.T) {
 	}
 
 	cr := NewSubaccount("unittest-sa")
-	_, err := ctrl.Create(context.Background(), cr)
+	got, err := ctrl.Create(context.Background(), cr)
 
-	// The password-grant client is created successfully but will fail during
-	// Execute() because the token URL is fake. We expect an error here.
-	if err == nil {
-		t.Error("Expected error from password-grant client (fake token URL), got nil")
+	// Password-grant token pre-fetch fails (fake URL), falls back to
+	// default mock client which succeeds.
+	if err != nil {
+		t.Errorf("Expected fallback to CIS client to succeed, got error: %v", err)
+	}
+	if diff := cmp.Diff(managed.ExternalCreation{ConnectionDetails: managed.ConnectionDetails{}}, got); diff != "" {
+		t.Errorf("Create(...): -want, +got:\n%s", diff)
 	}
 }
 

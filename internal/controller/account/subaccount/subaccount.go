@@ -446,6 +446,8 @@ func (c *external) createBTPSubaccount(
 // createPasswordGrantAccountsClient creates an accounts service API client
 // that authenticates with password grant + IDP origin. This ensures that
 // subaccountAdmins resolves from the correct identity provider.
+// It pre-fetches a token to validate that the password grant works;
+// if the token fetch fails, it returns an error so the caller can fall back.
 func createPasswordGrantAccountsClient(cred *btp.Credentials) (*accountclient.APIClient, error) {
 	uaa := cred.CISCredential.Uaa
 
@@ -463,13 +465,22 @@ func createPasswordGrantAccountsClient(cred *btp.Credentials) (*accountclient.AP
 		EndpointParams: params,
 	}
 
+	// Pre-fetch token to validate password grant works.
+	// If the CIS UAA client doesn't allow password grants, fail early
+	// so the caller can fall back to client_credentials.
+	bgCtx := btp.NewBackgroundContextWithDebugPrintHTTPClient()
+	tokenSource := config.TokenSource(bgCtx)
+	if _, err := tokenSource.Token(); err != nil {
+		return nil, fmt.Errorf("password grant token fetch failed: %w", err)
+	}
+
 	accountServiceUrl, err := url.Parse(cred.CISCredential.Endpoints.AccountsServiceUrl)
 	if err != nil {
 		return nil, err
 	}
 
 	c := accountclient.NewConfiguration()
-	c.HTTPClient = config.Client(btp.NewBackgroundContextWithDebugPrintHTTPClient())
+	c.HTTPClient = config.Client(bgCtx)
 	c.Servers = []accountclient.ServerConfiguration{{URL: accountServiceUrl.String()}}
 
 	return accountclient.NewAPIClient(c), nil
