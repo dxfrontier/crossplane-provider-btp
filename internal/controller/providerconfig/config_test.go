@@ -4,16 +4,16 @@ import (
 	"context"
 	"testing"
 
-	cp_xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	"github.com/crossplane/crossplane-runtime/pkg/resource/fake"
-	test2 "github.com/crossplane/crossplane-runtime/pkg/test"
+	cp_xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource/fake"
+	test2 "github.com/crossplane/crossplane-runtime/v2/pkg/test"
 	"github.com/sap/crossplane-provider-btp/apis/v1alpha1"
 	"github.com/sap/crossplane-provider-btp/btp"
 	trackingtest "github.com/sap/crossplane-provider-btp/internal/tracking/test"
-	"github.com/sap/crossplane-provider-btp/test/e2e"
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -73,10 +73,13 @@ func TestCreateClient(t *testing.T) {
 	}
 }
 
-func fakeResource() *e2e.FakeManaged {
-	var mg = e2e.FakeManaged{}
-	mg.ProviderConfigReferencer = &fake.ProviderConfigReferencer{Ref: &cp_xpv1.Reference{Name: "any"}}
-	return &mg
+func fakeResource() *fake.ModernManaged {
+	return &fake.ModernManaged{
+		ObjectMeta: metav1.ObjectMeta{Namespace: "default"},
+		TypedProviderConfigReferencer: fake.TypedProviderConfigReferencer{
+			Ref: &cp_xpv1.ProviderConfigReference{Name: "any"},
+		},
+	}
 }
 func mockClient(secretData map[string][]byte) *test2.MockClient {
 	mockClient := test2.MockClient{

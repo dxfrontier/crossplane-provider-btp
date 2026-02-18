@@ -2,6 +2,7 @@ apiVersion: account.btp.sap.crossplane.io/v1alpha1
 kind: ServiceBinding
 metadata:
   name: destination-binding
+  namespace: default
 spec:
   forProvider:
     name: destination-binding
@@ -16,4 +17,3 @@ spec:
   #   frequency: 720h
   writeConnectionSecretToRef:
     name: destination-binding
-    namespace: default

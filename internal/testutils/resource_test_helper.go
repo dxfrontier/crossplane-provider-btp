@@ -1,8 +1,8 @@
 package testutils
 
 import (
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
 	"github.com/sap/crossplane-provider-btp/apis/account/v1alpha1"
 	v1alpha12 "github.com/sap/crossplane-provider-btp/apis/v1alpha1"
 	v1 "k8s.io/api/core/v1"
@@ -12,7 +12,7 @@ import (
 func NewProviderConfig(name string, cisSecret string, saSecret string) *v1alpha12.ProviderConfig {
 	return &v1alpha12.ProviderConfig{
 		TypeMeta:   metav1.TypeMeta{},
-		ObjectMeta: metav1.ObjectMeta{Name: name},
+		ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: "default"},
 		Spec: v1alpha12.ProviderConfigSpec{
 			CISSecret: v1alpha12.ProviderCredentials{
 				Source: "Secret",

@@ -18,7 +18,7 @@ limitations under the License.
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
 // GetCondition of this CloudManagement.
 func (mg *CloudManagement) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -36,18 +36,20 @@ func (mg *CloudManagement) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this CloudManagement.
-func (mg *CloudManagement) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *CloudManagement) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this CloudManagement.
-func (mg *CloudManagement) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this CloudManagement.
-func (mg *CloudManagement) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *CloudManagement) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this CloudManagement.
@@ -66,18 +68,22 @@ func (mg *CloudManagement) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this CloudManagement.
-func (mg *CloudManagement) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *CloudManagement) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this CloudManagement.
-func (mg *CloudManagement) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this CloudManagement.
-func (mg *CloudManagement) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *CloudManagement) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this Directory.
@@ -96,18 +102,20 @@ func (mg *Directory) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this Directory.
-func (mg *Directory) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *Directory) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this Directory.
-func (mg *Directory) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this Directory.
-func (mg *Directory) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *Directory) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this Directory.
@@ -126,18 +134,22 @@ func (mg *Directory) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this Directory.
-func (mg *Directory) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *Directory) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this Directory.
-func (mg *Directory) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this Directory.
-func (mg *Directory) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *Directory) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this DirectoryEntitlement.
@@ -156,18 +168,20 @@ func (mg *DirectoryEntitlement) GetManagementPolicies() xpv1.ManagementPolicies 
 }
 
 // GetProviderConfigReference of this DirectoryEntitlement.
-func (mg *DirectoryEntitlement) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *DirectoryEntitlement) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this DirectoryEntitlement.
-func (mg *DirectoryEntitlement) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this DirectoryEntitlement.
-func (mg *DirectoryEntitlement) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *DirectoryEntitlement) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this DirectoryEntitlement.
@@ -186,18 +200,22 @@ func (mg *DirectoryEntitlement) SetManagementPolicies(r xpv1.ManagementPolicies)
 }
 
 // SetProviderConfigReference of this DirectoryEntitlement.
-func (mg *DirectoryEntitlement) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *DirectoryEntitlement) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this DirectoryEntitlement.
-func (mg *DirectoryEntitlement) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this DirectoryEntitlement.
-func (mg *DirectoryEntitlement) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *DirectoryEntitlement) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this Entitlement.
@@ -216,18 +234,20 @@ func (mg *Entitlement) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this Entitlement.
-func (mg *Entitlement) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *Entitlement) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this Entitlement.
-func (mg *Entitlement) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this Entitlement.
-func (mg *Entitlement) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *Entitlement) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this Entitlement.
@@ -246,18 +266,22 @@ func (mg *Entitlement) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this Entitlement.
-func (mg *Entitlement) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *Entitlement) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this Entitlement.
-func (mg *Entitlement) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this Entitlement.
-func (mg *Entitlement) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *Entitlement) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this GlobalAccount.
@@ -276,18 +300,20 @@ func (mg *GlobalAccount) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this GlobalAccount.
-func (mg *GlobalAccount) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *GlobalAccount) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this GlobalAccount.
-func (mg *GlobalAccount) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this GlobalAccount.
-func (mg *GlobalAccount) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *GlobalAccount) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this GlobalAccount.
@@ -306,18 +332,22 @@ func (mg *GlobalAccount) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this GlobalAccount.
-func (mg *GlobalAccount) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *GlobalAccount) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this GlobalAccount.
-func (mg *GlobalAccount) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this GlobalAccount.
-func (mg *GlobalAccount) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *GlobalAccount) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this ServiceBinding.
@@ -336,18 +366,20 @@ func (mg *ServiceBinding) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this ServiceBinding.
-func (mg *ServiceBinding) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *ServiceBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this ServiceBinding.
-func (mg *ServiceBinding) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this ServiceBinding.
-func (mg *ServiceBinding) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *ServiceBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this ServiceBinding.
@@ -366,18 +398,22 @@ func (mg *ServiceBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this ServiceBinding.
-func (mg *ServiceBinding) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *ServiceBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this ServiceBinding.
-func (mg *ServiceBinding) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this ServiceBinding.
-func (mg *ServiceBinding) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *ServiceBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this ServiceInstance.
@@ -396,18 +432,20 @@ func (mg *ServiceInstance) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this ServiceInstance.
-func (mg *ServiceInstance) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *ServiceInstance) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this ServiceInstance.
-func (mg *ServiceInstance) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this ServiceInstance.
-func (mg *ServiceInstance) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *ServiceInstance) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this ServiceInstance.
@@ -426,18 +464,22 @@ func (mg *ServiceInstance) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this ServiceInstance.
-func (mg *ServiceInstance) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *ServiceInstance) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this ServiceInstance.
-func (mg *ServiceInstance) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this ServiceInstance.
-func (mg *ServiceInstance) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *ServiceInstance) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this ServiceManager.
@@ -456,18 +498,20 @@ func (mg *ServiceManager) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this ServiceManager.
-func (mg *ServiceManager) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *ServiceManager) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this ServiceManager.
-func (mg *ServiceManager) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this ServiceManager.
-func (mg *ServiceManager) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *ServiceManager) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this ServiceManager.
@@ -486,18 +530,22 @@ func (mg *ServiceManager) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this ServiceManager.
-func (mg *ServiceManager) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *ServiceManager) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this ServiceManager.
-func (mg *ServiceManager) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this ServiceManager.
-func (mg *ServiceManager) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *ServiceManager) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this Subaccount.
@@ -516,18 +564,20 @@ func (mg *Subaccount) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this Subaccount.
-func (mg *Subaccount) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *Subaccount) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this Subaccount.
-func (mg *Subaccount) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this Subaccount.
-func (mg *Subaccount) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *Subaccount) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this Subaccount.
@@ -546,18 +596,22 @@ func (mg *Subaccount) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this Subaccount.
-func (mg *Subaccount) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *Subaccount) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this Subaccount.
-func (mg *Subaccount) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this Subaccount.
-func (mg *Subaccount) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *Subaccount) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this SubaccountServiceBinding.
@@ -576,18 +630,20 @@ func (mg *SubaccountServiceBinding) GetManagementPolicies() xpv1.ManagementPolic
 }
 
 // GetProviderConfigReference of this SubaccountServiceBinding.
-func (mg *SubaccountServiceBinding) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *SubaccountServiceBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this SubaccountServiceBinding.
-func (mg *SubaccountServiceBinding) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this SubaccountServiceBinding.
-func (mg *SubaccountServiceBinding) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *SubaccountServiceBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this SubaccountServiceBinding.
@@ -606,18 +662,22 @@ func (mg *SubaccountServiceBinding) SetManagementPolicies(r xpv1.ManagementPolic
 }
 
 // SetProviderConfigReference of this SubaccountServiceBinding.
-func (mg *SubaccountServiceBinding) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *SubaccountServiceBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this SubaccountServiceBinding.
-func (mg *SubaccountServiceBinding) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this SubaccountServiceBinding.
-func (mg *SubaccountServiceBinding) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *SubaccountServiceBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this SubaccountServiceBroker.
@@ -636,18 +696,20 @@ func (mg *SubaccountServiceBroker) GetManagementPolicies() xpv1.ManagementPolici
 }
 
 // GetProviderConfigReference of this SubaccountServiceBroker.
-func (mg *SubaccountServiceBroker) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *SubaccountServiceBroker) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this SubaccountServiceBroker.
-func (mg *SubaccountServiceBroker) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this SubaccountServiceBroker.
-func (mg *SubaccountServiceBroker) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *SubaccountServiceBroker) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this SubaccountServiceBroker.
@@ -666,18 +728,22 @@ func (mg *SubaccountServiceBroker) SetManagementPolicies(r xpv1.ManagementPolici
 }
 
 // SetProviderConfigReference of this SubaccountServiceBroker.
-func (mg *SubaccountServiceBroker) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *SubaccountServiceBroker) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this SubaccountServiceBroker.
-func (mg *SubaccountServiceBroker) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this SubaccountServiceBroker.
-func (mg *SubaccountServiceBroker) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *SubaccountServiceBroker) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this SubaccountServiceInstance.
@@ -696,18 +762,20 @@ func (mg *SubaccountServiceInstance) GetManagementPolicies() xpv1.ManagementPoli
 }
 
 // GetProviderConfigReference of this SubaccountServiceInstance.
-func (mg *SubaccountServiceInstance) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *SubaccountServiceInstance) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this SubaccountServiceInstance.
-func (mg *SubaccountServiceInstance) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this SubaccountServiceInstance.
-func (mg *SubaccountServiceInstance) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *SubaccountServiceInstance) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this SubaccountServiceInstance.
@@ -726,18 +794,22 @@ func (mg *SubaccountServiceInstance) SetManagementPolicies(r xpv1.ManagementPoli
 }
 
 // SetProviderConfigReference of this SubaccountServiceInstance.
-func (mg *SubaccountServiceInstance) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *SubaccountServiceInstance) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this SubaccountServiceInstance.
-func (mg *SubaccountServiceInstance) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this SubaccountServiceInstance.
-func (mg *SubaccountServiceInstance) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *SubaccountServiceInstance) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this Subscription.
@@ -756,18 +828,20 @@ func (mg *Subscription) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this Subscription.
-func (mg *Subscription) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *Subscription) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this Subscription.
-func (mg *Subscription) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this Subscription.
-func (mg *Subscription) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *Subscription) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this Subscription.
@@ -786,16 +860,20 @@ func (mg *Subscription) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this Subscription.
-func (mg *Subscription) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *Subscription) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this Subscription.
-func (mg *Subscription) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this Subscription.
-func (mg *Subscription) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *Subscription) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }

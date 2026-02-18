@@ -22,7 +22,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 type SubaccountServiceBrokerInitParameters struct {
@@ -42,7 +42,7 @@ type SubaccountServiceBrokerInitParameters struct {
 	// (String) The ID of the subaccount.
 	// The ID of the subaccount.
 	// +crossplane:generate:reference:type=github.com/sap/crossplane-provider-btp/apis/account/v1alpha1.Subaccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/crossplane-runtime/pkg/reference.ExternalName()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/crossplane-runtime/v2/pkg/reference.ExternalName()
 	// +crossplane:generate:reference:refFieldName=SubaccountRef
 	// +crossplane:generate:reference:selectorFieldName=SubaccountSelector
 	SubaccountID *string `json:"subaccountId,omitempty" tf:"subaccount_id,omitempty"`
@@ -122,7 +122,7 @@ type SubaccountServiceBrokerParameters struct {
 	// (String) The ID of the subaccount.
 	// The ID of the subaccount.
 	// +crossplane:generate:reference:type=github.com/sap/crossplane-provider-btp/apis/account/v1alpha1.Subaccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/crossplane-runtime/pkg/reference.ExternalName()
+	// +crossplane:generate:reference:extractor=github.com/crossplane/crossplane-runtime/v2/pkg/reference.ExternalName()
 	// +crossplane:generate:reference:refFieldName=SubaccountRef
 	// +crossplane:generate:reference:selectorFieldName=SubaccountSelector
 	// +kubebuilder:validation:Optional
@@ -179,7 +179,7 @@ type SubaccountServiceBrokerStatus struct {
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,account}
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,managed,account}
 type SubaccountServiceBroker struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

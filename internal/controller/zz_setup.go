@@ -19,7 +19,7 @@ package controller
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	directoryentitlement "github.com/sap/crossplane-provider-btp/internal/controller/account/directoryentitlement"
 	subaccount "github.com/sap/crossplane-provider-btp/internal/controller/account/subaccount"

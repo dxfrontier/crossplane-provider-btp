@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"strings"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
 	"github.com/pkg/errors"
 	apisv1alpha1 "github.com/sap/crossplane-provider-btp/apis/account/v1alpha1"
 	apisv1beta1 "github.com/sap/crossplane-provider-btp/apis/account/v1beta1"
@@ -82,6 +82,7 @@ func (tfI *TfClientInitializer) serviceInstanceCr(cm *apisv1beta1.CloudManagemen
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:              "CLOUDMANAGEMENT_INSTANCE",
+			Namespace:         cm.GetNamespace(),
 			UID:               cm.UID + "-service-instance",
 			DeletionTimestamp: cm.DeletionTimestamp,
 		},
@@ -116,6 +117,7 @@ func (tfI *TfClientInitializer) serviceBindingCr(cm *apisv1beta1.CloudManagement
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:              "CLOUDMANAGEMENT_INSTANCE",
+			Namespace:         cm.GetNamespace(),
 			UID:               cm.UID + "-service-binding",
 			DeletionTimestamp: cm.DeletionTimestamp,
 		},

@@ -18,7 +18,7 @@ limitations under the License.
 
 package v1beta1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
 // GetCondition of this CloudManagement.
 func (mg *CloudManagement) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -36,18 +36,20 @@ func (mg *CloudManagement) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this CloudManagement.
-func (mg *CloudManagement) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *CloudManagement) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this CloudManagement.
-func (mg *CloudManagement) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this CloudManagement.
-func (mg *CloudManagement) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *CloudManagement) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this CloudManagement.
@@ -66,18 +68,22 @@ func (mg *CloudManagement) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this CloudManagement.
-func (mg *CloudManagement) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *CloudManagement) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this CloudManagement.
-func (mg *CloudManagement) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this CloudManagement.
-func (mg *CloudManagement) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *CloudManagement) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this ServiceManager.
@@ -96,18 +102,20 @@ func (mg *ServiceManager) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this ServiceManager.
-func (mg *ServiceManager) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *ServiceManager) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this ServiceManager.
-func (mg *ServiceManager) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this ServiceManager.
-func (mg *ServiceManager) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *ServiceManager) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this ServiceManager.
@@ -126,16 +134,20 @@ func (mg *ServiceManager) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this ServiceManager.
-func (mg *ServiceManager) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *ServiceManager) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this ServiceManager.
-func (mg *ServiceManager) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this ServiceManager.
-func (mg *ServiceManager) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *ServiceManager) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }

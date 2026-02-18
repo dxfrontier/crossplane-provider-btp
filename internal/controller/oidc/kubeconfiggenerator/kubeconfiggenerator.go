@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -13,8 +13,8 @@ import (
 
 	"github.com/sap/crossplane-provider-btp/internal/clients/oidc"
 
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
 	"github.com/sap/crossplane-provider-btp/apis/oidc/v1alpha1"
 )
@@ -38,7 +38,7 @@ var (
 
 type connector struct {
 	kube         client.Client
-	usage        resource.Tracker
+	usage resource.Tracker
 	newServiceFn func([]byte, []byte) (oidc.KubeConfigClient, error)
 }
 

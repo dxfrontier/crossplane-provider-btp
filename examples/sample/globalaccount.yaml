@@ -6,6 +6,7 @@ metadata:
   annotations:
     crossplane.io/external-name: SAP Cloud Orchestration Canary
   name: co-ga-canary
+  namespace: default
 spec:
   providerConfigRef:
     name: default

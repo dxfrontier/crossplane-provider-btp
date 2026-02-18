@@ -4,6 +4,7 @@ metadata:
   annotations:
     crossplane.io/external-name: SAP Cloud Orchestration Canary
   name: co-ga-canary
+  namespace: default
 spec:
   providerConfigRef:
     name: default
@@ -31,7 +32,6 @@ metadata:
 spec:
   writeConnectionSecretToRef:
     name: service-manager
-    namespace: default
   forProvider:
     subaccountRef:
       name: kyma-test
@@ -44,7 +44,6 @@ metadata:
 spec:
   writeConnectionSecretToRef:
     name: cis-local
-    namespace: default
   forProvider:
     serviceManagerRef:
       name: servicemanager-test
@@ -55,6 +54,7 @@ apiVersion: account.btp.sap.crossplane.io/v1alpha1
 kind: Entitlement
 metadata:
   name: kyma-azure
+  namespace: default
 spec:
   forProvider:
     serviceName: kymaruntime
@@ -80,6 +80,7 @@ apiVersion: environment.btp.sap.crossplane.io/v1alpha1
 kind: KymaEnvironment
 metadata:
   name: my-kyma-instance
+  namespace: default
 spec:
   subaccountRef:
     name: kyma-test
@@ -87,7 +88,6 @@ spec:
     name: cis-local
   writeConnectionSecretToRef:
     name: kyma-kubeconfig-local
-    namespace: default
   forProvider:
     name: my-kyma-instance
     planName: azure

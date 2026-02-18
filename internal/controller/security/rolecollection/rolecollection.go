@@ -5,13 +5,13 @@ import (
 
 	"github.com/sap/crossplane-provider-btp/btp"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
 	"github.com/sap/crossplane-provider-btp/apis/security/v1alpha1"
 	service "github.com/sap/crossplane-provider-btp/internal/clients/security/rolecollection"
@@ -59,7 +59,7 @@ var configureRoleCollectionMaintainerFn = func(binding *v1alpha1.XsuaaBinding) (
 
 type connector struct {
 	kube            client.Client
-	usage           resource.Tracker
+	usage resource.Tracker
 	resourcetracker tracking.ReferenceResolverTracker
 	newServiceFn    func(binding *v1alpha1.XsuaaBinding) (RoleCollectionMaintainer, error)
 }

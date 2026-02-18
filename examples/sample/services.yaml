@@ -7,7 +7,6 @@ metadata:
 spec:
   writeConnectionSecretToRef:
     name: service-manager
-    namespace: default
   forProvider:
     subaccountRef:
       name: test-12345
@@ -20,7 +19,6 @@ metadata:
 spec:
   writeConnectionSecretToRef:
     name: service-manager
-    namespace: default
   forProvider:
     subaccountRef:
       name: test-12345
@@ -36,7 +34,6 @@ metadata:
 spec:
   writeConnectionSecretToRef:
     name: cis-local
-    namespace: default
   forProvider:
     serviceManagerRef:
       name: test-12345
@@ -51,7 +48,6 @@ metadata:
 spec:
   writeConnectionSecretToRef:
     name: cis-local
-    namespace: default
   forProvider:
     serviceManagerRef:
       name: test-12345

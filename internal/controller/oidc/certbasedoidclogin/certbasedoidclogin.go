@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	oidc2 "github.com/int128/kubelogin/pkg/oidc"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
@@ -12,8 +12,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/sap/crossplane-provider-btp/apis/oidc/v1alpha1"
 	"github.com/sap/crossplane-provider-btp/internal/clients/oidc"
 )

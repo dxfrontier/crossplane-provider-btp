@@ -6,7 +6,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 // GlobalAccountParameters are the configurable fields of a GlobalAccount.
@@ -40,7 +40,7 @@ type GlobalAccountStatus struct {
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,sap}
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,managed,sap}
 // +kubebuilder:deprecatedversion:warning="Use globalaccount reference in providerconfig instead"
 type GlobalAccount struct {
 	metav1.TypeMeta   `json:",inline"`

@@ -3,11 +3,11 @@ package tfclient
 import (
 	"context"
 
-	ujresource "github.com/crossplane/upjet/pkg/resource"
-	"github.com/crossplane/upjet/pkg/terraform"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
+	ujresource "github.com/crossplane/upjet/v2/pkg/resource"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/types"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 var errUpdateStatusFmt = "cannot update status of the resource %s after an async %s"
@@ -26,25 +26,25 @@ type APICallbacks struct {
 }
 
 // Create makes sure the error is saved in async operation condition.
-func (ac *APICallbacks) Create(name string) terraform.CallbackFn {
+func (ac *APICallbacks) Create(nn types.NamespacedName) terraform.CallbackFn {
 	return func(err error, ctx context.Context) error {
-		uErr := ac.saveCallbackFn(ctx, ac.kube, name, ujresource.LastAsyncOperationCondition(err), ujresource.AsyncOperationFinishedCondition())
-		return errors.Wrapf(uErr, errUpdateStatusFmt, name, "create")
+		uErr := ac.saveCallbackFn(ctx, ac.kube, nn.String(), ujresource.LastAsyncOperationCondition(err), ujresource.AsyncOperationFinishedCondition())
+		return errors.Wrapf(uErr, errUpdateStatusFmt, nn.String(), "create")
 	}
 }
 
 // Update makes sure the error is saved in async operation condition.
-func (ac *APICallbacks) Update(name string) terraform.CallbackFn {
+func (ac *APICallbacks) Update(nn types.NamespacedName) terraform.CallbackFn {
 	return func(err error, ctx context.Context) error {
-		uErr := ac.saveCallbackFn(ctx, ac.kube, name, ujresource.LastAsyncOperationCondition(err), ujresource.AsyncOperationFinishedCondition())
-		return errors.Wrapf(uErr, errUpdateStatusFmt, name, "update")
+		uErr := ac.saveCallbackFn(ctx, ac.kube, nn.String(), ujresource.LastAsyncOperationCondition(err), ujresource.AsyncOperationFinishedCondition())
+		return errors.Wrapf(uErr, errUpdateStatusFmt, nn.String(), "update")
 	}
 }
 
 // Destroy makes sure the error is saved in async operation condition.
-func (ac *APICallbacks) Destroy(name string) terraform.CallbackFn {
+func (ac *APICallbacks) Destroy(nn types.NamespacedName) terraform.CallbackFn {
 	return func(err error, ctx context.Context) error {
-		uErr := ac.saveCallbackFn(ctx, ac.kube, name, ujresource.LastAsyncOperationCondition(err), ujresource.AsyncOperationFinishedCondition())
-		return errors.Wrapf(uErr, errUpdateStatusFmt, name, "destroy")
+		uErr := ac.saveCallbackFn(ctx, ac.kube, nn.String(), ujresource.LastAsyncOperationCondition(err), ujresource.AsyncOperationFinishedCondition())
+		return errors.Wrapf(uErr, errUpdateStatusFmt, nn.String(), "destroy")
 	}
 }

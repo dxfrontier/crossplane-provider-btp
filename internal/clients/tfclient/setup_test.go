@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"testing"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/resource/fake"
-	"github.com/crossplane/crossplane-runtime/pkg/test"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource/fake"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/test"
 	"github.com/sap/crossplane-provider-btp/apis/v1alpha1"
 	"github.com/sap/crossplane-provider-btp/btp"
 	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -89,22 +90,38 @@ func TestTerraformSetupBuilder_ConditionalIDP(t *testing.T) {
 					}
 					return nil
 				},
+				MockCreate: func(ctx context.Context, obj client.Object, opts ...client.CreateOption) error {
+					return nil
+				},
+				MockUpdate: func(ctx context.Context, obj client.Object, opts ...client.UpdateOption) error {
+					return nil
+				},
+				MockPatch: func(ctx context.Context, obj client.Object, patch client.Patch, opts ...client.PatchOption) error {
+					return nil
+				},
 			}
 
 			// Create fake managed resource
-			mg := &fake.Managed{}
-			mg.SetProviderConfigReference(&xpv1.Reference{Name: testProviderName})
+			mg := &fake.ModernManaged{
+				ObjectMeta: metav1.ObjectMeta{Namespace: testSecretNS},
+				TypedProviderConfigReferencer: fake.TypedProviderConfigReferencer{
+					Ref: &xpv1.ProviderConfigReference{Name: testProviderName, Kind: "ProviderConfig"},
+				},
+			}
 
 			// Call TerraformSetupBuilder
 			setupFn := TerraformSetupBuilder("1.5.0", "SAP/btp", "1.7.0")
 			setup, err := setupFn(context.Background(), kube, mg)
 
 			// Verify error
-			if err != nil && err.Error() != tc.want.err.Error() {
-				t.Errorf("TerraformSetupBuilder() error = %v, want %v", err, tc.want.err)
-			}
 			if tc.want.err != nil {
+				if err == nil || err.Error() != tc.want.err.Error() {
+					t.Errorf("TerraformSetupBuilder() error = %v, want %v", err, tc.want.err)
+				}
 				return
+			}
+			if err != nil {
+				t.Fatalf("TerraformSetupBuilder() unexpected error: %v", err)
 			}
 
 			// Verify configuration
@@ -197,11 +214,24 @@ func TestTerraformSetupBuilderNoTracking_ConditionalIDP(t *testing.T) {
 					}
 					return nil
 				},
+				MockCreate: func(ctx context.Context, obj client.Object, opts ...client.CreateOption) error {
+					return nil
+				},
+				MockUpdate: func(ctx context.Context, obj client.Object, opts ...client.UpdateOption) error {
+					return nil
+				},
+				MockPatch: func(ctx context.Context, obj client.Object, patch client.Patch, opts ...client.PatchOption) error {
+					return nil
+				},
 			}
 
 			// Create fake managed resource
-			mg := &fake.Managed{}
-			mg.SetProviderConfigReference(&xpv1.Reference{Name: testProviderName})
+			mg := &fake.ModernManaged{
+				ObjectMeta: metav1.ObjectMeta{Namespace: testSecretNS},
+				TypedProviderConfigReferencer: fake.TypedProviderConfigReferencer{
+					Ref: &xpv1.ProviderConfigReference{Name: testProviderName, Kind: "ProviderConfig"},
+				},
+			}
 
 			// Call TerraformSetupBuilderNoTracking
 			setupFn := TerraformSetupBuilderNoTracking("1.5.0", "SAP/btp", "1.7.0")
@@ -243,6 +273,7 @@ func TestTerraformSetupBuilderNoTracking_ConditionalIDP(t *testing.T) {
 
 func fakeProviderConfig(name, secretName, secretNS, globalAccount, cliServerURL string) *v1alpha1.ProviderConfig {
 	return &v1alpha1.ProviderConfig{
+		ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: secretNS},
 		Spec: v1alpha1.ProviderConfigSpec{
 			GlobalAccount: globalAccount,
 			CliServerUrl:  cliServerURL,

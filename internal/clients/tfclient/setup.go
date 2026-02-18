@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/crossplane/crossplane-runtime/pkg/logging"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	tjcontroller "github.com/crossplane/upjet/pkg/controller"
-	"github.com/crossplane/upjet/pkg/controller/handler"
-	"github.com/crossplane/upjet/pkg/terraform"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/logging"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	tjcontroller "github.com/crossplane/upjet/v2/pkg/controller"
+	"github.com/crossplane/upjet/v2/pkg/controller/handler"
+	"github.com/crossplane/upjet/v2/pkg/terraform"
 	"github.com/pkg/errors"
 	"github.com/sap/crossplane-provider-btp/apis/v1alpha1"
 	"github.com/sap/crossplane-provider-btp/btp"
@@ -57,7 +57,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			},
 		}
 
-		configRef := mg.GetProviderConfigReference()
+		configRef := mg.(resource.ModernManaged).GetProviderConfigReference()
 		if configRef == nil {
 			return ps, errors.New(errNoProviderConfig)
 		}
@@ -68,7 +68,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		t := resource.NewProviderConfigUsageTracker(client, &v1alpha1.ProviderConfigUsage{})
-		if err := t.Track(ctx, mg); err != nil {
+		if err := t.Track(ctx, mg.(resource.ModernManaged)); err != nil {
 			return ps, errors.Wrap(err, errTrackUsage)
 		}
 

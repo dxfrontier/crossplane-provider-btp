@@ -8,9 +8,9 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
-	"github.com/crossplane/crossplane-runtime/pkg/errors"
-	"github.com/crossplane/crossplane-runtime/pkg/meta"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/errors"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
 	"github.com/sap/crossplane-provider-btp/apis/account/v1alpha1"
 	"github.com/sap/crossplane-provider-btp/internal"
 	"github.com/sap/crossplane-provider-btp/internal/clients/tfclient"
@@ -98,7 +98,8 @@ func buildBaseTfResource(si *v1alpha1.ServiceInstance) *v1alpha1.SubaccountServi
 			APIVersion: v1alpha1.CRDGroupVersion.String(),
 		},
 		ObjectMeta: metav1.ObjectMeta{
-			Name: si.Name,
+			Name:      si.Name,
+			Namespace: si.GetNamespace(),
 			// make sure no naming conflicts are there for upjet tmp folder creation
 			UID:               si.UID + "-service-instance",
 			DeletionTimestamp: si.DeletionTimestamp,
@@ -109,7 +110,7 @@ func buildBaseTfResource(si *v1alpha1.ServiceInstance) *v1alpha1.SubaccountServi
 					Name: pcName(si),
 				},
 				ManagementPolicies:               si.GetManagementPolicies(),
-				WriteConnectionSecretToReference: si.GetWriteConnectionSecretToReference(),
+				WriteConnectionSecretToReference: localToSecretRef(si.GetWriteConnectionSecretToReference()),
 			},
 			ForProvider: v1alpha1.SubaccountServiceInstanceParameters{
 				SubaccountID: si.Spec.ForProvider.SubaccountID,
@@ -120,6 +121,13 @@ func buildBaseTfResource(si *v1alpha1.ServiceInstance) *v1alpha1.SubaccountServi
 		},
 	}
 	return sInstance
+}
+
+func localToSecretRef(l *xpv1.LocalSecretReference) *xpv1.SecretReference {
+	if l == nil {
+		return nil
+	}
+	return &xpv1.SecretReference{Name: l.Name}
 }
 
 func pcName(si *v1alpha1.ServiceInstance) string {

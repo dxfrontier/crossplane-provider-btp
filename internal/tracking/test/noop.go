@@ -3,7 +3,7 @@ package test
 import (
 	"context"
 
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	providerv1alpha1 "github.com/sap/crossplane-provider-btp/apis/v1alpha1"

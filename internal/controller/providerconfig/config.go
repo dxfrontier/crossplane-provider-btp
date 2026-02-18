@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/crossplane/crossplane-runtime/pkg/event"
-	"github.com/crossplane/crossplane-runtime/pkg/ratelimiter"
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/providerconfig"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
-	"github.com/crossplane/upjet/pkg/controller"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/event"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/ratelimiter"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/providerconfig"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	"github.com/crossplane/upjet/v2/pkg/controller"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -96,8 +96,9 @@ func CreateClient(
 }
 
 func ResolveProviderConfig(ctx context.Context, mg resource.Managed, kube client.Client) (*v1alpha1.ProviderConfig, error) {
+	mm := mg.(resource.ModernManaged)
 	pc := &v1alpha1.ProviderConfig{}
-	err := kube.Get(ctx, types.NamespacedName{Name: mg.GetProviderConfigReference().Name}, pc)
+	err := kube.Get(ctx, types.NamespacedName{Name: mm.GetProviderConfigReference().Name, Namespace: mg.GetNamespace()}, pc)
 	return pc, err
 }
 

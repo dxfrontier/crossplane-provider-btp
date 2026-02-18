@@ -3,6 +3,7 @@ apiVersion: account.btp.sap.crossplane.io/v1alpha1
 kind: ServiceInstance
 metadata:
   name: destination-instance
+  namespace: default
 spec:
   parameters:
     {
@@ -22,6 +23,7 @@ apiVersion: account.btp.sap.crossplane.io/v1alpha1
 kind: ServiceInstance
 metadata:
   name: destination-instance2
+  namespace: default
 spec:
   parameters:
     HTML5Runtime_enabled: false
@@ -39,6 +41,7 @@ apiVersion: account.btp.sap.crossplane.io/v1alpha1
 kind: ServiceInstance
 metadata:
   name: cloud-logging-instance
+  namespace: default
 spec:
   forProvider:
     offeringName: cloud-logging

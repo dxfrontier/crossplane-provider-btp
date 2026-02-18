@@ -2,6 +2,7 @@ apiVersion: oidc.btp.sap.crossplane.io/v1alpha1
 kind: CertBasedOIDCLogin
 metadata:
   name: example-login
+  namespace: default
 spec:
   forProvider:
     issuer: <ISSUER_URL>
@@ -21,7 +22,6 @@ spec:
         key: password
   writeConnectionSecretToRef:
     name: oidc-token
-    namespace: crossplane-system
 ---
 # To generate cert secret from downloaded cert:
 # kubectl create secret generic example-login-cert-secret --namespace=crossplane-system --from-file=cert=/tmp/personal.p12

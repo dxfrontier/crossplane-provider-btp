@@ -7,7 +7,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
 const (
@@ -26,7 +26,7 @@ const (
 // +kubebuilder:printcolumn:name="SOURCE",type="string",JSONPath=".spec.sourceRef.name"
 // +kubebuilder:printcolumn:name="TARGET-KIND",type="string",JSONPath=".spec.targetRef.kind"
 // +kubebuilder:printcolumn:name="TARGET",type="string",JSONPath=".spec.targetRef.name"
-// +kubebuilder:resource:scope=Cluster,categories={crossplane,provider,template}
+// +kubebuilder:resource:scope=Namespaced,categories={crossplane,provider,template}
 type ResourceUsage struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

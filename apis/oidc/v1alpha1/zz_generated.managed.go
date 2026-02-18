@@ -18,7 +18,7 @@ limitations under the License.
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
 // GetCondition of this CertBasedOIDCLogin.
 func (mg *CertBasedOIDCLogin) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
@@ -36,18 +36,20 @@ func (mg *CertBasedOIDCLogin) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this CertBasedOIDCLogin.
-func (mg *CertBasedOIDCLogin) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *CertBasedOIDCLogin) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this CertBasedOIDCLogin.
-func (mg *CertBasedOIDCLogin) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this CertBasedOIDCLogin.
-func (mg *CertBasedOIDCLogin) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *CertBasedOIDCLogin) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this CertBasedOIDCLogin.
@@ -66,18 +68,22 @@ func (mg *CertBasedOIDCLogin) SetManagementPolicies(r xpv1.ManagementPolicies) {
 }
 
 // SetProviderConfigReference of this CertBasedOIDCLogin.
-func (mg *CertBasedOIDCLogin) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *CertBasedOIDCLogin) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this CertBasedOIDCLogin.
-func (mg *CertBasedOIDCLogin) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this CertBasedOIDCLogin.
-func (mg *CertBasedOIDCLogin) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *CertBasedOIDCLogin) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }
 
 // GetCondition of this KubeConfigGenerator.
@@ -96,18 +102,20 @@ func (mg *KubeConfigGenerator) GetManagementPolicies() xpv1.ManagementPolicies {
 }
 
 // GetProviderConfigReference of this KubeConfigGenerator.
-func (mg *KubeConfigGenerator) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
+func (mg *KubeConfigGenerator) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-// GetPublishConnectionDetailsTo of this KubeConfigGenerator.
-func (mg *KubeConfigGenerator) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
-	return mg.Spec.PublishConnectionDetailsTo
-}
 
 // GetWriteConnectionSecretToReference of this KubeConfigGenerator.
-func (mg *KubeConfigGenerator) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
+func (mg *KubeConfigGenerator) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
 }
 
 // SetConditions of this KubeConfigGenerator.
@@ -126,16 +134,20 @@ func (mg *KubeConfigGenerator) SetManagementPolicies(r xpv1.ManagementPolicies) 
 }
 
 // SetProviderConfigReference of this KubeConfigGenerator.
-func (mg *KubeConfigGenerator) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
+func (mg *KubeConfigGenerator) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
 
-// SetPublishConnectionDetailsTo of this KubeConfigGenerator.
-func (mg *KubeConfigGenerator) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
-	mg.Spec.PublishConnectionDetailsTo = r
-}
 
 // SetWriteConnectionSecretToReference of this KubeConfigGenerator.
-func (mg *KubeConfigGenerator) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
+func (mg *KubeConfigGenerator) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
 }

@@ -3,7 +3,7 @@ package rolecollectionassignment
 import (
 	"context"
 
-	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
+	xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
 	"github.com/pkg/errors"
 	"github.com/sap/crossplane-provider-btp/btp"
@@ -13,8 +13,8 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/crossplane/crossplane-runtime/pkg/reconciler/managed"
-	"github.com/crossplane/crossplane-runtime/pkg/resource"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/reconciler/managed"
+	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
 	"github.com/sap/crossplane-provider-btp/apis/security/v1alpha1"
 )
@@ -65,7 +65,7 @@ type RoleAssigner interface {
 // is called.
 type connector struct {
 	kube               client.Client
-	usage              resource.Tracker
+	usage resource.Tracker
 	newUserAssignerFn  func(binding *v1alpha1.XsuaaBinding) (RoleAssigner, error)
 	newGroupAssignerFn func(binding *v1alpha1.XsuaaBinding) (RoleAssigner, error)
 	resourcetracker    tracking.ReferenceResolverTracker

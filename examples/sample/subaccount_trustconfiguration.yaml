@@ -2,6 +2,7 @@ apiVersion: security.btp.sap.crossplane.io/v1alpha1
 kind: SubaccountTrustConfiguration
 metadata:
   name: meta-trustconfiguration
+  namespace: default
 spec:
   forProvider:
     name: simple-trust

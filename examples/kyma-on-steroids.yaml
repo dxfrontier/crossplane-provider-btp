@@ -8,7 +8,6 @@ spec:
     name: default
   writeConnectionSecretToRef:
     name: service-manager
-    namespace: default
   forProvider:
     subaccountRef:
       name: test-stephan
@@ -23,7 +22,6 @@ spec:
     name: default
   writeConnectionSecretToRef:
     name: cis-local
-    namespace: default
   forProvider:
     serviceManagerRef:
       name: servicemanager-test
@@ -34,6 +32,7 @@ apiVersion: account.btp.sap.crossplane.io/v1alpha1
 kind: Entitlement
 metadata:
   name: kyma-azure
+  namespace: default
 spec:
   providerConfigRef:
     name: default
@@ -63,10 +62,10 @@ apiVersion: environment.btp.sap.crossplane.io/v1alpha1
 kind: KymaEnvironment
 metadata:
   name: my-kyma-instance
+  namespace: default
 spec:
   writeConnectionSecretToRef:
     name: kyma-kube-config
-    namespace: default
   providerConfigRef:
     name: default
   subaccountRef:
@@ -115,6 +114,7 @@ metadata:
   annotations:
     crossplane.io/external-name: SAP Cloud Orchestration Canary
   name: co-ga-canary
+  namespace: default
 spec:
   providerConfigRef:
     name: default
@@ -123,10 +123,10 @@ apiVersion: oidc.btp.sap.crossplane.io/v1alpha1
 kind: CertBasedOIDCLogin
 metadata:
   name: kyma-oidc
+  namespace: default
 spec:
   writeConnectionSecretToRef:
     name: oidc-token
-    namespace: default
   forProvider:
     certificate:
       source: Secret
@@ -147,10 +147,10 @@ apiVersion: oidc.btp.sap.crossplane.io/v1alpha1
 kind: KubeConfigGenerator
 metadata:
   name: kyma-oidc
+  namespace: default
 spec:
   writeConnectionSecretToRef:
     name: kyma-ready-kubeconfig
-    namespace: default
   forProvider:
     kubeconfigTemplate:
       source: Secret

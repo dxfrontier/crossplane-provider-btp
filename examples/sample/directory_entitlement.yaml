@@ -20,6 +20,7 @@ apiVersion: account.btp.sap.crossplane.io/v1alpha1
 kind: DirectoryEntitlement
 metadata:
   name: directory-ent-cis-local
+  namespace: default
 spec:
   forProvider:
     directoryRef:
@@ -31,6 +32,7 @@ apiVersion: account.btp.sap.crossplane.io/v1alpha1
 kind: DirectoryEntitlement
 metadata:
   name: audit-log-viewer-ent
+  namespace: default
 spec:
   forProvider:
     serviceName: postgresql-db
