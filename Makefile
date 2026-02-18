@@ -49,10 +49,18 @@ GO111MODULE = on
 
 # Override the GO_LINT_ARGS from golang.mk to use updated golangci-lint parameters
 # this can potentially be removed when we update to a newer version of the build
-# Explicit paths derived from GO_SUBDIRS to prevent golangci-lint from loading
-# cmd/exporter (which triggers typecheck failures due to crossplane-runtime v1).
+GO_LINT_ARGS = --output.checkstyle.path=$(GO_LINT_OUTPUT)/checkstyle.xml
+
+# Override go.lint from golang.mk to pass explicit paths.
+# cmd/exporter depends on crossplane-runtime v1 which fails typecheck against
+# controller-runtime v0.23.1. Passing explicit paths prevents golangci-lint
+# from loading cmd/exporter packages entirely.
 GO_LINT_PATHS := $(foreach t,$(GO_SUBDIRS),./$(t)/...)
-GO_LINT_ARGS = --output.checkstyle.path=$(GO_LINT_OUTPUT)/checkstyle.xml $(GO_LINT_PATHS)
+go.lint: $(GOLANGCILINT)
+	@$(INFO) golangci-lint
+	@mkdir -p $(GO_LINT_OUTPUT)
+	@$(GOLANGCILINT) run $(GO_LINT_ARGS) $(GO_LINT_PATHS) || $(FAIL)
+	@$(OK) golangci-lint
 
 # kind-related versions
 KIND_VERSION ?= v0.23.0
