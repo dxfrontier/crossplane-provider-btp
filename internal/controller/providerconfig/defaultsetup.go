@@ -33,7 +33,7 @@ type ConnectorFn func(
 	kube client.Client,
 	usage resource.Tracker,
 	resourcetracker tracking.ReferenceResolverTracker,
-) managed.ExternalConnecter
+) managed.ExternalConnector
 
 // DefaultSetup supports the creation of a controller for a given managed resource type. Accepts any type that implements the ConnectorFn or KymaModuleConnectorFn signature.
 // DEPRECATED: use DefaultSetupWithoutDefaultInitializer instead to not have the external-name default initializer added automatically (new external-name handling requires external-name to be empty not defaulted on create).
@@ -53,9 +53,9 @@ func DefaultSetup(mgr ctrl.Manager, o controller.Options, object client.Object, 
 	r := managed.NewReconciler(
 		mgr,
 		resource.ManagedKind(gvk),
-		managed.WithExternalConnecter(connectorFn(mgr.GetClient(), usageTracker, referenceTracker)),
+		managed.WithExternalConnector(connectorFn(mgr.GetClient(), usageTracker, referenceTracker)),
 		managed.WithLogger(o.Logger.WithValues("controller", name)),
-		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))),
+		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorder(name))),
 		managed.WithPollInterval(o.PollInterval),
 		managed.WithManagementPolicies(),
 	)
@@ -85,9 +85,9 @@ func DefaultSetupWithoutDefaultInitializer(mgr ctrl.Manager, o controller.Option
 	r := managed.NewReconciler(
 		mgr,
 		resource.ManagedKind(gvk),
-		managed.WithExternalConnecter(connectorFn(mgr.GetClient(), usageTracker, referenceTracker)),
+		managed.WithExternalConnector(connectorFn(mgr.GetClient(), usageTracker, referenceTracker)),
 		managed.WithLogger(o.Logger.WithValues("controller", name)),
-		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))),
+		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorder(name))),
 		managed.WithPollInterval(o.PollInterval),
 		managed.WithInitializers(), // No default initializer
 		managed.WithManagementPolicies(),

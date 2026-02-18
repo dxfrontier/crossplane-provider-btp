@@ -19,7 +19,7 @@ import (
 
 // Setup adds a controller that reconciles CloudManagement managed resources.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
-	return providerconfig.DefaultSetup(mgr, o, &apisv1beta1.CloudManagement{}, apisv1beta1.CloudManagementKind, apisv1beta1.CloudManagementGroupVersionKind, func(kube client.Client, usage resource.Tracker, resourcetracker tracking.ReferenceResolverTracker) managed.ExternalConnecter {
+	return providerconfig.DefaultSetup(mgr, o, &apisv1beta1.CloudManagement{}, apisv1beta1.CloudManagementKind, apisv1beta1.CloudManagementGroupVersionKind, func(kube client.Client, usage resource.Tracker, resourcetracker tracking.ReferenceResolverTracker) managed.ExternalConnector {
 		return &connector{
 			kube:                kube,
 			usage:               usage,

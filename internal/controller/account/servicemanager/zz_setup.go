@@ -27,7 +27,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		apisv1beta1.ServiceManagerGroupVersionKind,
 		func(kube client.Client,
 			usage resource.Tracker,
-			resourcetracker tracking.ReferenceResolverTracker) managed.ExternalConnecter {
+			resourcetracker tracking.ReferenceResolverTracker) managed.ExternalConnector {
 			return &connector{
 				kube:            kube,
 				newServiceFn:    btp.NewBTPClient,

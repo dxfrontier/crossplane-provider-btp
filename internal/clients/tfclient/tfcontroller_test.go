@@ -461,7 +461,7 @@ type ManagedMock struct {
 	resource.Managed
 }
 
-var _ managed.ExternalConnecter = &TfConnectorMock{}
+var _ managed.ExternalConnector = &TfConnectorMock{}
 
 // TF external connector mock
 type TfConnectorMock struct {

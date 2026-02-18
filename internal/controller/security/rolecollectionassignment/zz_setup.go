@@ -14,7 +14,7 @@ import (
 
 // Setup adds a controller that reconciles GlobalAccount managed resources.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
-	return providerconfig.DefaultSetup(mgr, o, &v1alpha1.RoleCollectionAssignment{}, v1alpha1.RoleCollectionAssignmentGroupKind, v1alpha1.RoleCollectionAssignmentGroupVersionKind, func(kube client.Client, usage resource.Tracker, resourcetracker tracking.ReferenceResolverTracker) managed.ExternalConnecter {
+	return providerconfig.DefaultSetup(mgr, o, &v1alpha1.RoleCollectionAssignment{}, v1alpha1.RoleCollectionAssignmentGroupKind, v1alpha1.RoleCollectionAssignmentGroupVersionKind, func(kube client.Client, usage resource.Tracker, resourcetracker tracking.ReferenceResolverTracker) managed.ExternalConnector {
 		return &connector{
 			kube:               kube,
 			usage:              usage,

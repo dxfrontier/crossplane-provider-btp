@@ -1,6 +1,6 @@
 #!/bin/bash
 # Fix upjet v2.2.0-generated controller files for compatibility with
-# controller-runtime v0.23+ and the plain (non-SDK/Framework) connector.
+# controller-runtime v0.23+ and crossplane-runtime v2.
 #
 # Issues fixed:
 #
@@ -15,6 +15,9 @@
 # 3. SetupGated: The template generates SetupGated wrappers and zz_setup.go
 #    calls them, but providerconfig (a custom controller) only has Setup.
 #    Since the Gate feature is not configured, replace all SetupGated with Setup.
+#
+# 4. Deprecated APIs: The template uses ExternalConnecter (old spelling) and
+#    GetEventRecorderFor (deprecated). Replace with the current API names.
 
 set -euo pipefail
 
@@ -28,9 +31,13 @@ find internal/controller -name 'zz_controller.go' -exec perl -0777 -pi -e '
 
   # Fix 2: Remove unused metrics import
   s/\t"github\.com\/crossplane\/upjet\/v2\/pkg\/metrics"\n//g;
+
+  # Fix 4a: ExternalConnecter -> ExternalConnector
+  s/ExternalConnecter/ExternalConnector/g;
+
+  # Fix 4b: GetEventRecorderFor -> GetEventRecorder
+  s/GetEventRecorderFor/GetEventRecorder/g;
 ' {} +
 
 # Fix 3: Replace SetupGated with Setup in the generated setup orchestrator.
-# providerconfig is a custom controller without SetupGated, and we don't
-# use the Gate feature anyway.
 sed -i 's/\.SetupGated/.Setup/g' internal/controller/zz_setup.go

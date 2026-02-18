@@ -42,7 +42,7 @@ type Defaults struct {
 	BindingName  string `json:"bindingName,omitempty"`
 }
 
-func NewServiceManagerTfClient(sConnector managed.ExternalConnecter, sbConnector managed.ExternalConnecter, defaults Defaults) *TfClientInitializer {
+func NewServiceManagerTfClient(sConnector managed.ExternalConnector, sbConnector managed.ExternalConnector, defaults Defaults) *TfClientInitializer {
 	return &TfClientInitializer{
 		siConnector: sConnector,
 		sbConnector: sbConnector,
@@ -54,8 +54,8 @@ func NewServiceManagerTfClient(sConnector managed.ExternalConnecter, sbConnector
 var _ ITfClientInitializer = &TfClientInitializer{}
 
 type TfClientInitializer struct {
-	siConnector managed.ExternalConnecter
-	sbConnector managed.ExternalConnecter
+	siConnector managed.ExternalConnector
+	sbConnector managed.ExternalConnector
 
 	defaults Defaults
 }
