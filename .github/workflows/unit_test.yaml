@@ -26,12 +26,7 @@ jobs:
         go-version: ${{ env.GO_VERSION }}
 
     - name: Build
-      # cmd/exporter excluded: xp-clifford depends on crossplane-runtime v1 which is
-      # incompatible with controller-runtime v0.23.1 (missing Apply method).
-      # Re-enable once xp-clifford is updated to crossplane-runtime/v2.
-      # Note: cannot use `go list ./... | grep -v` because go list exits non-zero
-      # on cmd/exporter type errors and pipefail propagates the failure.
-      run: go build -v ./cmd/provider/... ./cmd/generator/... ./internal/... ./apis/... ./test/... ./scripts/...
+      run: go build -v ./...
 
     - name: Unit-Test Init
       run: make test.init

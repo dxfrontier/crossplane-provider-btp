@@ -1,3 +1,5 @@
+//go:build exporter
+
 package main
 
 import (
