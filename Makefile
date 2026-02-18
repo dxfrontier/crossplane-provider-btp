@@ -49,7 +49,10 @@ GO111MODULE = on
 
 # Override the GO_LINT_ARGS from golang.mk to use updated golangci-lint parameters
 # this can potentially be removed when we update to a newer version of the build
-GO_LINT_ARGS = --output.checkstyle.path=$(GO_LINT_OUTPUT)/checkstyle.xml
+# Explicit paths derived from GO_SUBDIRS to prevent golangci-lint from loading
+# cmd/exporter (which triggers typecheck failures due to crossplane-runtime v1).
+GO_LINT_PATHS := $(foreach t,$(GO_SUBDIRS),./$(t)/...)
+GO_LINT_ARGS = --output.checkstyle.path=$(GO_LINT_OUTPUT)/checkstyle.xml $(GO_LINT_PATHS)
 
 # kind-related versions
 KIND_VERSION ?= v0.23.0
