@@ -107,13 +107,16 @@ func main() {
 }
 
 func setupTerraformControllers(mgr manager.Manager, log logging.Logger, maxReconcileRate *int, pollInterval time.Duration, terraformVersion *string, providerSource *string, providerVersion *string) {
+	featureFlags := &feature.Flags{}
+	featureFlags.Enable(feature.EnableBetaManagementPolicies)
+
 	o := tjcontroller.Options{
 		Options: controller.Options{
 			Logger:                  log,
 			GlobalRateLimiter:       ratelimiter.NewGlobal(*maxReconcileRate),
 			PollInterval:            pollInterval,
 			MaxConcurrentReconciles: 1,
-			Features:                &feature.Flags{},
+			Features:                featureFlags,
 		},
 		Provider: config.GetProvider(),
 		// use the following WorkspaceStoreOption to enable the shared gRPC mode

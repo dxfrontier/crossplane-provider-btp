@@ -36,6 +36,9 @@ limitations under the License.
 // Run Upjet generator
 //go:generate go run ../cmd/generator/main.go ..
 
+// Fix upjet-generated controller files for controller-runtime v0.23+ generic API
+//go:generate ../hack/helpers/fix_generated_controllers.sh
+
 // Run e2e test generator
 //go:generate go run ../test/e2e/generator/main.go ..
 
