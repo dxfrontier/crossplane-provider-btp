@@ -34,23 +34,11 @@ The hand-written Subaccount controller used the CIS API with `client_credentials
 | `forProvider.subaccountAdmins` | _(removed — creator is auto-admin)_ |
 | `status.atProvider.subaccountGuid` | `status.atProvider.id` |
 
-### Custom IDP support for password grant authentication
-
-Upstream `v1.6.1` uses a password grant flow for Subaccount creation but does not pass the `origin` parameter, causing authentication failures when using a custom IDP.
-
-**Fix:** The password grant flow now includes the IDP origin from the ProviderConfig credentials, enabling authentication with custom identity providers.
-
 ### CF Environment: IDP origin for API login
 
 The CloudFoundry environment controller did not pass the IDP origin when authenticating against the CF API, causing login failures with custom IDPs.
 
 **Fix:** CF API login now passes the `origin` parameter from the ProviderConfig credentials.
-
-### Pre-fetch token for CIS fallback
-
-When the password grant flow is used for Subaccount creation, subsequent CIS API calls (for Directory, Entitlement, etc.) need a valid token. The upstream provider did not pre-fetch this token.
-
-**Fix:** Token is pre-fetched during password grant initialization, enabling the CIS fallback path to work correctly.
 
 ## Upstream Documentation
 
