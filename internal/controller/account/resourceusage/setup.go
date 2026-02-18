@@ -28,7 +28,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	r := NewReconciler(
 		mgr,
 		WithLogger(o.Logger.WithValues("controller", name)),
-		WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorder(name))),
+		WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))), //nolint:staticcheck // SA1019 replacement API returns incompatible type
 	)
 
 	return ctrl.NewControllerManagedBy(mgr).

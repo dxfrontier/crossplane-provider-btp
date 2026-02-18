@@ -55,7 +55,7 @@ func DefaultSetup(mgr ctrl.Manager, o controller.Options, object client.Object, 
 		resource.ManagedKind(gvk),
 		managed.WithExternalConnector(connectorFn(mgr.GetClient(), usageTracker, referenceTracker)),
 		managed.WithLogger(o.Logger.WithValues("controller", name)),
-		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorder(name))),
+		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))), //nolint:staticcheck // SA1019 replacement API returns incompatible type
 		managed.WithPollInterval(o.PollInterval),
 		managed.WithManagementPolicies(),
 	)
@@ -87,7 +87,7 @@ func DefaultSetupWithoutDefaultInitializer(mgr ctrl.Manager, o controller.Option
 		resource.ManagedKind(gvk),
 		managed.WithExternalConnector(connectorFn(mgr.GetClient(), usageTracker, referenceTracker)),
 		managed.WithLogger(o.Logger.WithValues("controller", name)),
-		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorder(name))),
+		managed.WithRecorder(event.NewAPIRecorder(mgr.GetEventRecorderFor(name))), //nolint:staticcheck // SA1019 replacement API returns incompatible type
 		managed.WithPollInterval(o.PollInterval),
 		managed.WithInitializers(), // No default initializer
 		managed.WithManagementPolicies(),

@@ -35,8 +35,7 @@ find internal/controller -name 'zz_controller.go' -exec perl -0777 -pi -e '
   # Fix 4a: ExternalConnecter -> ExternalConnector
   s/ExternalConnecter/ExternalConnector/g;
 
-  # Fix 4b: GetEventRecorderFor -> GetEventRecorder
-  s/GetEventRecorderFor/GetEventRecorder/g;
+
 ' {} +
 
 # Fix 3: Replace SetupGated with Setup in the generated setup orchestrator.
