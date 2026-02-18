@@ -47,9 +47,15 @@ GO_SUBDIRS += cmd/provider cmd/generator internal apis
 GO111MODULE = on
 -include build/makelib/golang.mk
 
-# Override the GO_LINT_ARGS from golang.mk to use updated golangci-lint parameters
-# this can potentially be removed when we update to a newer version of the build
-GO_LINT_ARGS = --output.checkstyle.path=$(GO_LINT_OUTPUT)/checkstyle.xml
+# Override go.lint entirely: golangci-lint v2 needs different output flags than
+# the v1 --out-format used by golang.mk, and we print text issues to stdout
+# so CI logs show the actual error details.
+GO_LINT_PATHS := $(foreach t,$(GO_SUBDIRS),./$(t)/...)
+go.lint: $(GOLANGCILINT)
+	@$(INFO) golangci-lint
+	@mkdir -p $(GO_LINT_OUTPUT)
+	@$(GOLANGCILINT) run --output.text.path=stdout --output.checkstyle.path=$(GO_LINT_OUTPUT)/checkstyle.xml $(GO_LINT_PATHS) || $(FAIL)
+	@$(OK) golangci-lint
 
 # kind-related versions
 KIND_VERSION ?= v0.23.0
