@@ -11,6 +11,10 @@
 #    "github.com/crossplane/upjet/v2/pkg/metrics" but it is only used by the
 #    TerraformPluginSDK/Framework connector paths. For the plain CLI connector
 #    the import is unused and causes a compilation error.
+#
+# 3. SetupGated: The template generates SetupGated wrappers and zz_setup.go
+#    calls them, but providerconfig (a custom controller) only has Setup.
+#    Since the Gate feature is not configured, replace all SetupGated with Setup.
 
 set -euo pipefail
 
@@ -25,3 +29,8 @@ find internal/controller -name 'zz_controller.go' -exec perl -0777 -pi -e '
   # Fix 2: Remove unused metrics import
   s/\t"github\.com\/crossplane\/upjet\/v2\/pkg\/metrics"\n//g;
 ' {} +
+
+# Fix 3: Replace SetupGated with Setup in the generated setup orchestrator.
+# providerconfig is a custom controller without SetupGated, and we don't
+# use the Gate feature anyway.
+sed -i 's/\.SetupGated/.Setup/g' internal/controller/zz_setup.go
