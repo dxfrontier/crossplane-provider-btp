@@ -43,7 +43,6 @@ func (mg *CloudFoundryEnvironment) GetProviderConfigReference() *xpv1.ProviderCo
 	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-
 // GetWriteConnectionSecretToReference of this CloudFoundryEnvironment.
 func (mg *CloudFoundryEnvironment) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	if mg.Spec.WriteConnectionSecretToReference == nil {
@@ -75,7 +74,6 @@ func (mg *CloudFoundryEnvironment) SetProviderConfigReference(r *xpv1.ProviderCo
 	}
 	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
-
 
 // SetWriteConnectionSecretToReference of this CloudFoundryEnvironment.
 func (mg *CloudFoundryEnvironment) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
@@ -109,7 +107,6 @@ func (mg *KymaEnvironment) GetProviderConfigReference() *xpv1.ProviderConfigRefe
 	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-
 // GetWriteConnectionSecretToReference of this KymaEnvironment.
 func (mg *KymaEnvironment) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	if mg.Spec.WriteConnectionSecretToReference == nil {
@@ -141,7 +138,6 @@ func (mg *KymaEnvironment) SetProviderConfigReference(r *xpv1.ProviderConfigRefe
 	}
 	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
-
 
 // SetWriteConnectionSecretToReference of this KymaEnvironment.
 func (mg *KymaEnvironment) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
@@ -175,7 +171,6 @@ func (mg *KymaEnvironmentBinding) GetProviderConfigReference() *xpv1.ProviderCon
 	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-
 // GetWriteConnectionSecretToReference of this KymaEnvironmentBinding.
 func (mg *KymaEnvironmentBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	if mg.Spec.WriteConnectionSecretToReference == nil {
@@ -207,7 +202,6 @@ func (mg *KymaEnvironmentBinding) SetProviderConfigReference(r *xpv1.ProviderCon
 	}
 	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
-
 
 // SetWriteConnectionSecretToReference of this KymaEnvironmentBinding.
 func (mg *KymaEnvironmentBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
@@ -241,7 +235,6 @@ func (mg *KymaModule) GetProviderConfigReference() *xpv1.ProviderConfigReference
 	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-
 // GetWriteConnectionSecretToReference of this KymaModule.
 func (mg *KymaModule) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	if mg.Spec.WriteConnectionSecretToReference == nil {
@@ -273,7 +266,6 @@ func (mg *KymaModule) SetProviderConfigReference(r *xpv1.ProviderConfigReference
 	}
 	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
-
 
 // SetWriteConnectionSecretToReference of this KymaModule.
 func (mg *KymaModule) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {

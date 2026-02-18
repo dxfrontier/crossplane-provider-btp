@@ -43,7 +43,6 @@ func (mg *CertBasedOIDCLogin) GetProviderConfigReference() *xpv1.ProviderConfigR
 	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-
 // GetWriteConnectionSecretToReference of this CertBasedOIDCLogin.
 func (mg *CertBasedOIDCLogin) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	if mg.Spec.WriteConnectionSecretToReference == nil {
@@ -75,7 +74,6 @@ func (mg *CertBasedOIDCLogin) SetProviderConfigReference(r *xpv1.ProviderConfigR
 	}
 	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
-
 
 // SetWriteConnectionSecretToReference of this CertBasedOIDCLogin.
 func (mg *CertBasedOIDCLogin) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
@@ -109,7 +107,6 @@ func (mg *KubeConfigGenerator) GetProviderConfigReference() *xpv1.ProviderConfig
 	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
 }
 
-
 // GetWriteConnectionSecretToReference of this KubeConfigGenerator.
 func (mg *KubeConfigGenerator) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
 	if mg.Spec.WriteConnectionSecretToReference == nil {
@@ -141,7 +138,6 @@ func (mg *KubeConfigGenerator) SetProviderConfigReference(r *xpv1.ProviderConfig
 	}
 	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
 }
-
 
 // SetWriteConnectionSecretToReference of this KubeConfigGenerator.
 func (mg *KubeConfigGenerator) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
