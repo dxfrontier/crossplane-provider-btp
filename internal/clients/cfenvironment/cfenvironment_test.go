@@ -102,6 +102,47 @@ func TestNewOrganizationClient_Validation(t *testing.T) {
 	}
 }
 
+func TestResolveOrigin(t *testing.T) {
+	tests := []struct {
+		name string
+		cred *btp.UserCredential
+		want string
+	}{
+		{
+			name: "Origin set takes precedence over Idp",
+			cred: &btp.UserCredential{
+				Idp:    "arrevqqkn.accounts.cloud.sap",
+				Origin: "arrevqqkn-platform",
+			},
+			want: "arrevqqkn-platform",
+		},
+		{
+			name: "Origin empty falls back to Idp",
+			cred: &btp.UserCredential{
+				Idp:    "arrevqqkn.accounts.cloud.sap",
+				Origin: "",
+			},
+			want: "arrevqqkn.accounts.cloud.sap",
+		},
+		{
+			name: "Both empty returns empty string",
+			cred: &btp.UserCredential{
+				Idp:    "",
+				Origin: "",
+			},
+			want: "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := resolveOrigin(tt.cred)
+			if got != tt.want {
+				t.Errorf("resolveOrigin() = %q, want %q", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestCloudFoundryOrganization_getEnvironmentByNameAndOrg(t *testing.T) {
 	getBtpClient := func(instanceName string) btp.Client {
 		return btp.Client{

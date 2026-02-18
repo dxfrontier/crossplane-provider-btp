@@ -58,10 +58,11 @@ type Credentials struct {
 }
 
 type UserCredential struct {
-	Email    string
-	Username string
-	Password string
-	Idp      string
+	Email    string `json:"email"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Idp      string `json:"idp"`
+	Origin   string `json:"origin"`
 }
 
 type CISCredential struct {

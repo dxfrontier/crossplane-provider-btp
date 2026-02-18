@@ -96,6 +96,15 @@ func (c CloudFoundryOrganization) getManagers(ctx context.Context, environment *
 	return managers, nil
 }
 
+// resolveOrigin returns the CF UAA origin for authentication.
+// Prefers the explicit Origin field; falls back to Idp.
+func resolveOrigin(cred *btp.UserCredential) string {
+	if cred.Origin != "" {
+		return cred.Origin
+	}
+	return cred.Idp
+}
+
 func (c CloudFoundryOrganization) createClient(environment *provisioningclient.BusinessEnvironmentInstanceResponseObject) (
 	*organizationClient,
 	error,
@@ -107,7 +116,7 @@ func (c CloudFoundryOrganization) createClient(environment *provisioningclient.B
 
 	cloudFoundryClient, err := newOrganizationClient(
 		org.Name, org.ApiEndpoint, org.Id, c.btp.Credential.UserCredential.Username,
-		c.btp.Credential.UserCredential.Password, c.btp.Credential.UserCredential.Idp,
+		c.btp.Credential.UserCredential.Password, resolveOrigin(c.btp.Credential.UserCredential),
 	)
 	return cloudFoundryClient, err
 }
@@ -118,7 +127,7 @@ func (c CloudFoundryOrganization) createClientWithType(org *btp.CloudFoundryOrg)
 ) {
 	cloudFoundryClient, err := newOrganizationClient(
 		org.Name, org.ApiEndpoint, org.Id, c.btp.Credential.UserCredential.Username,
-		c.btp.Credential.UserCredential.Password, c.btp.Credential.UserCredential.Idp,
+		c.btp.Credential.UserCredential.Password, resolveOrigin(c.btp.Credential.UserCredential),
 	)
 	return cloudFoundryClient, err
 }
