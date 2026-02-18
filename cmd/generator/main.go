@@ -29,5 +29,5 @@ func main() {
 	rg := provider.RootGroup
 	fmt.Println(rg)
 
-	pipeline.Run(provider, provider, absRootDir)
+	pipeline.Run(provider, nil, absRootDir)
 }

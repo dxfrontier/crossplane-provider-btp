@@ -35,12 +35,15 @@ GOLANGCILINT_VERSION ?= 2.8.0
 
 NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
-GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/exporter
+# cmd/exporter excluded: xp-clifford depends on crossplane-runtime v1 which is
+# incompatible with controller-runtime v0.23.1. Re-enable once xp-clifford uses v2.
+GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 # this version will eventually be passed to the terraform provider
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.ProviderVersion=$(VERSION)
 
-GO_SUBDIRS += cmd internal apis
+# cmd/exporter excluded: xp-clifford depends on crossplane-runtime v1 (incompatible with v0.23.1).
+GO_SUBDIRS += cmd/provider cmd/generator internal apis
 GO111MODULE = on
 -include build/makelib/golang.mk
 
