@@ -40,7 +40,7 @@ func (mg *GlobalaccountTrustConfiguration) GetProviderConfigReference() *xpv1.Pr
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
+	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this GlobalaccountTrustConfiguration.
@@ -72,7 +72,7 @@ func (mg *GlobalaccountTrustConfiguration) SetProviderConfigReference(r *xpv1.Pr
 		mg.Spec.ProviderConfigReference = nil
 		return
 	}
-	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
+	mg.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}
 }
 
 // SetWriteConnectionSecretToReference of this GlobalaccountTrustConfiguration.
@@ -104,7 +104,7 @@ func (mg *RoleCollection) GetProviderConfigReference() *xpv1.ProviderConfigRefer
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
+	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this RoleCollection.
@@ -136,7 +136,7 @@ func (mg *RoleCollection) SetProviderConfigReference(r *xpv1.ProviderConfigRefer
 		mg.Spec.ProviderConfigReference = nil
 		return
 	}
-	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
+	mg.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}
 }
 
 // SetWriteConnectionSecretToReference of this RoleCollection.
@@ -168,7 +168,7 @@ func (mg *RoleCollectionAssignment) GetProviderConfigReference() *xpv1.ProviderC
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
+	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this RoleCollectionAssignment.
@@ -200,7 +200,7 @@ func (mg *RoleCollectionAssignment) SetProviderConfigReference(r *xpv1.ProviderC
 		mg.Spec.ProviderConfigReference = nil
 		return
 	}
-	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
+	mg.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}
 }
 
 // SetWriteConnectionSecretToReference of this RoleCollectionAssignment.
@@ -232,7 +232,7 @@ func (mg *SubaccountApiCredential) GetProviderConfigReference() *xpv1.ProviderCo
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
+	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this SubaccountApiCredential.
@@ -264,7 +264,7 @@ func (mg *SubaccountApiCredential) SetProviderConfigReference(r *xpv1.ProviderCo
 		mg.Spec.ProviderConfigReference = nil
 		return
 	}
-	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
+	mg.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}
 }
 
 // SetWriteConnectionSecretToReference of this SubaccountApiCredential.
@@ -296,7 +296,7 @@ func (mg *SubaccountTrustConfiguration) GetProviderConfigReference() *xpv1.Provi
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
+	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this SubaccountTrustConfiguration.
@@ -328,7 +328,7 @@ func (mg *SubaccountTrustConfiguration) SetProviderConfigReference(r *xpv1.Provi
 		mg.Spec.ProviderConfigReference = nil
 		return
 	}
-	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
+	mg.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}
 }
 
 // SetWriteConnectionSecretToReference of this SubaccountTrustConfiguration.

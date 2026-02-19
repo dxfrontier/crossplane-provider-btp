@@ -148,6 +148,18 @@ clean-work:
 
 generate.init: clean-work $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
 
+# Fix angryjet bug: ProviderConfigReference getter/setter use wrong types
+# after we shadowed the embedded ResourceSpec field with *ProviderConfigReference.
+# - Setter creates *Reference instead of *ProviderConfigReference
+# - Getter copies only Name, losing Kind
+generate.done:
+	@$(INFO) "Fixing angryjet ProviderConfigReference bug in generated files"
+	@find apis -name 'zz_generated.managed.go' -exec \
+		sed -i 's/&xpv1\.Reference{Name: r\.Name}/\&xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}/g' {} +
+	@find apis -name 'zz_generated.managed.go' -exec \
+		sed -i 's/return &xpv1\.ProviderConfigReference{Name: mg\.Spec\.ProviderConfigReference\.Name}/return mg.Spec.ProviderConfigReference/g' {} +
+	@$(OK) "Fixed ProviderConfigReference in generated files"
+
 .PHONY: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs terraform.buildvars
 
 # Update the submodules, such as the common build scripts.
