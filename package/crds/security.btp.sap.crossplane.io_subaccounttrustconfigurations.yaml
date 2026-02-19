@@ -16,7 +16,7 @@ spec:
     listKind: SubaccountTrustConfigurationList
     plural: subaccounttrustconfigurations
     singular: subaccounttrustconfiguration
-  scope: Cluster
+  scope: Namespaced
   versions:
   - additionalPrinterColumns:
     - jsonPath: .status.conditions[?(@.type=='Synced')].status

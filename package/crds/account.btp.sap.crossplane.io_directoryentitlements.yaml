@@ -16,7 +16,7 @@ spec:
     listKind: DirectoryEntitlementList
     plural: directoryentitlements
     singular: directoryentitlement
-  scope: Cluster
+  scope: Namespaced
   versions:
   - additionalPrinterColumns:
     - jsonPath: .status.conditions[?(@.type=='Synced')].status

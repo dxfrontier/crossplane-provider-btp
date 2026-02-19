@@ -16,7 +16,7 @@ spec:
     listKind: SubaccountList
     plural: subaccounts
     singular: subaccount
-  scope: Cluster
+  scope: Namespaced
   versions:
   - additionalPrinterColumns:
     - jsonPath: .status.conditions[?(@.type=='Synced')].status
