@@ -40,7 +40,7 @@ func (mg *CloudManagement) GetProviderConfigReference() *xpv1.ProviderConfigRefe
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return mg.Spec.ProviderConfigReference
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this CloudManagement.
@@ -104,7 +104,7 @@ func (mg *ServiceManager) GetProviderConfigReference() *xpv1.ProviderConfigRefer
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return mg.Spec.ProviderConfigReference
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this ServiceManager.

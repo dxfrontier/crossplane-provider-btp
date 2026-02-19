@@ -40,7 +40,7 @@ func (mg *CloudFoundryEnvironment) GetProviderConfigReference() *xpv1.ProviderCo
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return mg.Spec.ProviderConfigReference
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this CloudFoundryEnvironment.
@@ -104,7 +104,7 @@ func (mg *KymaEnvironment) GetProviderConfigReference() *xpv1.ProviderConfigRefe
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return mg.Spec.ProviderConfigReference
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this KymaEnvironment.
@@ -168,7 +168,7 @@ func (mg *KymaEnvironmentBinding) GetProviderConfigReference() *xpv1.ProviderCon
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return mg.Spec.ProviderConfigReference
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this KymaEnvironmentBinding.
@@ -232,7 +232,7 @@ func (mg *KymaModule) GetProviderConfigReference() *xpv1.ProviderConfigReference
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return mg.Spec.ProviderConfigReference
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this KymaModule.

@@ -40,7 +40,7 @@ func (mg *CertBasedOIDCLogin) GetProviderConfigReference() *xpv1.ProviderConfigR
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return mg.Spec.ProviderConfigReference
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this CertBasedOIDCLogin.
@@ -104,7 +104,7 @@ func (mg *KubeConfigGenerator) GetProviderConfigReference() *xpv1.ProviderConfig
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return mg.Spec.ProviderConfigReference
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this KubeConfigGenerator.

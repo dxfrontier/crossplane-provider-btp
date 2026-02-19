@@ -5,10 +5,15 @@
 #
 # Problem: ResourceSpec.ProviderConfigReference is *Reference (Name+Policy),
 # but the Managed interface uses *ProviderConfigReference (Kind+Name).
-# angryjet generates adapter code that loses the Kind field.
+# The CRD schema uses the embedded *Reference type, so the API server prunes
+# the Kind field. We must compute Kind at runtime in the getter.
 #
-# Solution: Shadow the embedded *Reference field with *ProviderConfigReference
-# in each Spec struct, then fix the generated getter/setter adapters.
+# Solution:
+#   1. Shadow the embedded *Reference field with *ProviderConfigReference
+#      in each Spec struct (so angryjet generates type-correct code).
+#   2. Fix the setter to use *ProviderConfigReference (angryjet uses *Reference).
+#   3. Fix the getter to ALWAYS return Kind="ProviderConfig" (because the CRD
+#      schema doesn't include Kind, so the API server prunes it on round-trip).
 #
 # Usage:
 #   From repo root (Makefile):  bash scripts/fix-providerconfig-shadow.sh
@@ -45,12 +50,20 @@ for f in $(find "$BASE_DIR" -name 'zz_*_types.go'); do
     echo "   patched types: $f"
 done
 
-# 2. Fix SetProviderConfigReference: creates *Reference instead of *ProviderConfigReference
+# 2. Fix SetProviderConfigReference: angryjet creates *Reference instead of *ProviderConfigReference
 find "$BASE_DIR" -name 'zz_generated.managed.go' -exec \
     sed -i 's/&xpv1\.Reference{Name: r\.Name}/\&xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}/g' {} +
 
-# 3. Fix GetProviderConfigReference: copies only Name, losing Kind
+# 3. Fix GetProviderConfigReference: ensure Kind is ALWAYS "ProviderConfig".
+#    The CRD schema uses the embedded *Reference type (no Kind field), so
+#    the API server prunes Kind on round-trip. We must hardcode it here.
+#
+#    Pattern A: angryjet with shadow field generates "return mg.Spec.ProviderConfigReference"
 find "$BASE_DIR" -name 'zz_generated.managed.go' -exec \
-    sed -i 's/return &xpv1\.ProviderConfigReference{Name: mg\.Spec\.ProviderConfigReference\.Name}/return mg.Spec.ProviderConfigReference/g' {} +
+    sed -i '/GetProviderConfigReference/,/^}/ s/return mg\.Spec\.ProviderConfigReference$/return \&xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}/' {} +
+
+#    Pattern B: angryjet without shadow field generates "return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}"
+find "$BASE_DIR" -name 'zz_generated.managed.go' -exec \
+    sed -i 's/return &xpv1\.ProviderConfigReference{Name: mg\.Spec\.ProviderConfigReference\.Name}/return \&xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}/g' {} +
 
 echo ">> ProviderConfigReference fixes applied successfully"
