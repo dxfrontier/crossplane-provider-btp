@@ -21,6 +21,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	commonv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
@@ -121,6 +122,11 @@ func (in *CertBasedOIDCLoginParameters) DeepCopy() *CertBasedOIDCLoginParameters
 func (in *CertBasedOIDCLoginSpec) DeepCopyInto(out *CertBasedOIDCLoginSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(commonv1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 
@@ -314,6 +320,11 @@ func (in *KubeConfigGeneratorParameters) DeepCopy() *KubeConfigGeneratorParamete
 func (in *KubeConfigGeneratorSpec) DeepCopyInto(out *KubeConfigGeneratorSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(commonv1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 

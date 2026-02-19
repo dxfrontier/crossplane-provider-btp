@@ -249,6 +249,11 @@ func (in *GlobalaccountTrustConfigurationParameters) DeepCopy() *GlobalaccountTr
 func (in *GlobalaccountTrustConfigurationSpec) DeepCopyInto(out *GlobalaccountTrustConfigurationSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -400,6 +405,11 @@ func (in *RoleCollectionAssignmentParameters) DeepCopy() *RoleCollectionAssignme
 func (in *RoleCollectionAssignmentSpec) DeepCopyInto(out *RoleCollectionAssignmentSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	out.ForProvider = in.ForProvider
 	in.XSUAACredentialsReference.DeepCopyInto(&out.XSUAACredentialsReference)
 }
@@ -526,6 +536,11 @@ func (in *RoleCollectionParameters) DeepCopy() *RoleCollectionParameters {
 func (in *RoleCollectionSpec) DeepCopyInto(out *RoleCollectionSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.XSUAACredentialsReference.DeepCopyInto(&out.XSUAACredentialsReference)
 }
@@ -780,6 +795,11 @@ func (in *SubaccountApiCredentialParameters) DeepCopy() *SubaccountApiCredential
 func (in *SubaccountApiCredentialSpec) DeepCopyInto(out *SubaccountApiCredentialSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -1099,6 +1119,11 @@ func (in *SubaccountTrustConfigurationParameters) DeepCopy() *SubaccountTrustCon
 func (in *SubaccountTrustConfigurationSpec) DeepCopyInto(out *SubaccountTrustConfigurationSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }

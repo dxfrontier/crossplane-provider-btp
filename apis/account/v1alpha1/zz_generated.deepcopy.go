@@ -287,6 +287,11 @@ func (in *CloudManagementParameters) DeepCopy() *CloudManagementParameters {
 func (in *CloudManagementSpec) DeepCopyInto(out *CloudManagementSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 
@@ -607,6 +612,11 @@ func (in *DirectoryEntitlementParameters) DeepCopy() *DirectoryEntitlementParame
 func (in *DirectoryEntitlementSpec) DeepCopyInto(out *DirectoryEntitlementSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -780,6 +790,11 @@ func (in *DirectoryParameters) DeepCopy() *DirectoryParameters {
 func (in *DirectorySpec) DeepCopyInto(out *DirectorySpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 
@@ -976,6 +991,11 @@ func (in *EntitlementParameters) DeepCopy() *EntitlementParameters {
 func (in *EntitlementSpec) DeepCopyInto(out *EntitlementSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 
@@ -1144,6 +1164,11 @@ func (in *GlobalAccountParameters) DeepCopy() *GlobalAccountParameters {
 func (in *GlobalAccountSpec) DeepCopyInto(out *GlobalAccountSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	out.ForProvider = in.ForProvider
 }
 
@@ -1499,6 +1524,11 @@ func (in *ServiceBindingParameters) DeepCopy() *ServiceBindingParameters {
 func (in *ServiceBindingSpec) DeepCopyInto(out *ServiceBindingSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	if in.Rotation != nil {
 		in, out := &in.Rotation, &out.Rotation
@@ -1674,6 +1704,11 @@ func (in *ServiceInstanceParameters) DeepCopy() *ServiceInstanceParameters {
 func (in *ServiceInstanceSpec) DeepCopyInto(out *ServiceInstanceSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 
@@ -1807,6 +1842,11 @@ func (in *ServiceManagerParameters) DeepCopy() *ServiceManagerParameters {
 func (in *ServiceManagerSpec) DeepCopyInto(out *ServiceManagerSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 
@@ -2448,6 +2488,11 @@ func (in *SubaccountServiceBindingParameters) DeepCopy() *SubaccountServiceBindi
 func (in *SubaccountServiceBindingSpec) DeepCopyInto(out *SubaccountServiceBindingSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -2704,6 +2749,11 @@ func (in *SubaccountServiceBrokerParameters) DeepCopy() *SubaccountServiceBroker
 func (in *SubaccountServiceBrokerSpec) DeepCopyInto(out *SubaccountServiceBrokerSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -3034,6 +3084,11 @@ func (in *SubaccountServiceInstanceParameters) DeepCopy() *SubaccountServiceInst
 func (in *SubaccountServiceInstanceSpec) DeepCopyInto(out *SubaccountServiceInstanceSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -3069,6 +3124,11 @@ func (in *SubaccountServiceInstanceStatus) DeepCopy() *SubaccountServiceInstance
 func (in *SubaccountSpec) DeepCopyInto(out *SubaccountSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	in.InitProvider.DeepCopyInto(&out.InitProvider)
 }
@@ -3199,6 +3259,11 @@ func (in *SubscriptionParameters) DeepCopy() *SubscriptionParameters {
 func (in *SubscriptionSpec) DeepCopyInto(out *SubscriptionSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	if in.CloudManagementSelector != nil {
 		in, out := &in.CloudManagementSelector, &out.CloudManagementSelector

@@ -255,6 +255,11 @@ func (in *CloudManagementParameters) DeepCopy() *CloudManagementParameters {
 func (in *CloudManagementSpec) DeepCopyInto(out *CloudManagementSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 
@@ -520,6 +525,11 @@ func (in *ServiceManagerParameters) DeepCopy() *ServiceManagerParameters {
 func (in *ServiceManagerSpec) DeepCopyInto(out *ServiceManagerSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 }
 

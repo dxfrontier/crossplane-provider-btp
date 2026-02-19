@@ -130,8 +130,8 @@ type SubaccountApiCredentialSpec struct {
 	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
 	// to include the Kind field required by crossplane-runtime v2.
 	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
-	ProviderConfigReference *v1.ProviderConfigReference      `json:"providerConfigRef,omitempty"`
-	ForProvider             SubaccountApiCredentialParameters `json:"forProvider"`
+	ProviderConfigReference *v1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider     SubaccountApiCredentialParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception

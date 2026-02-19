@@ -87,6 +87,11 @@ func (in *CfEnvironmentParameters) DeepCopy() *CfEnvironmentParameters {
 func (in *CfEnvironmentSpec) DeepCopyInto(out *CfEnvironmentSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	if in.SubaccountSelector != nil {
 		in, out := &in.SubaccountSelector, &out.SubaccountSelector
@@ -480,6 +485,11 @@ func (in *KymaEnvironmentBindingParameters) DeepCopy() *KymaEnvironmentBindingPa
 func (in *KymaEnvironmentBindingSpec) DeepCopyInto(out *KymaEnvironmentBindingSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	out.ForProvider = in.ForProvider
 	if in.KymaEnvironmentSelector != nil {
 		in, out := &in.KymaEnvironmentSelector, &out.KymaEnvironmentSelector
@@ -603,6 +613,11 @@ func (in *KymaEnvironmentParameters) DeepCopy() *KymaEnvironmentParameters {
 func (in *KymaEnvironmentSpec) DeepCopyInto(out *KymaEnvironmentSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	if in.SubaccountSelector != nil {
 		in, out := &in.SubaccountSelector, &out.SubaccountSelector
@@ -746,6 +761,11 @@ func (in *KymaModuleParameters) DeepCopy() *KymaModuleParameters {
 func (in *KymaModuleSpec) DeepCopyInto(out *KymaModuleSpec) {
 	*out = *in
 	in.ResourceSpec.DeepCopyInto(&out.ResourceSpec)
+	if in.ProviderConfigReference != nil {
+		in, out := &in.ProviderConfigReference, &out.ProviderConfigReference
+		*out = new(v1.ProviderConfigReference)
+		**out = **in
+	}
 	in.ForProvider.DeepCopyInto(&out.ForProvider)
 	if in.KymaEnvironmentBindingSelector != nil {
 		in, out := &in.KymaEnvironmentBindingSelector, &out.KymaEnvironmentBindingSelector

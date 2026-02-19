@@ -104,13 +104,20 @@ spec:
                   type: string
                 type: array
               providerConfigRef:
-                default:
-                  name: default
+                allOf:
+                - default:
+                    kind: ProviderConfig
+                    name: default
+                - default:
+                    name: default
                 description: |-
                   ProviderConfigReference specifies how the provider that will be used to
                   create, observe, update, and delete this managed resource should be
                   configured.
                 properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
                   name:
                     description: Name of the referenced object.
                     type: string
@@ -140,6 +147,7 @@ spec:
                         type: string
                     type: object
                 required:
+                - kind
                 - name
                 type: object
               writeConnectionSecretToRef:
