@@ -33,7 +33,11 @@ type RoleCollectionAssignmentObservation struct {
 // A RoleCollectionAssignmentSpec defines the desired state of a RoleCollectionAssignment.
 type RoleCollectionAssignmentSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       RoleCollectionAssignmentParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference      `json:"providerConfigRef,omitempty"`
+	ForProvider             RoleCollectionAssignmentParameters `json:"forProvider"`
 
 	XSUAACredentialsReference `json:",inline"`
 }

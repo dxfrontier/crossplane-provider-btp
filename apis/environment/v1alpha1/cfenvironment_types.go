@@ -73,7 +73,11 @@ type CfEnvironmentObservation struct {
 // A CfEnvironmentSpec defines the desired state of a CloudFoundryEnvironment.
 type CfEnvironmentSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       CfEnvironmentParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             CfEnvironmentParameters        `json:"forProvider"`
 
 	// +crossplane:generate:reference:type=github.com/sap/crossplane-provider-btp/apis/account/v1alpha1.Subaccount
 	// +crossplane:generate:reference:refFieldName=SubaccountRef

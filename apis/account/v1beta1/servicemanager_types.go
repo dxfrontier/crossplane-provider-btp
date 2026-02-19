@@ -73,7 +73,11 @@ type ServiceManagerObservation struct {
 // A ServiceManagerSpec defines the desired state of a ServiceManager.
 type ServiceManagerSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       ServiceManagerParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             ServiceManagerParameters       `json:"forProvider"`
 }
 
 // A ServiceManagerStatus represents the observed state of a ServiceManager.

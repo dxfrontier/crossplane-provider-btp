@@ -66,7 +66,11 @@ type CertBasedOIDCLoginObservation struct {
 // A CertBasedOIDCLoginSpec defines the desired state of a CertBasedOIDCLogin.
 type CertBasedOIDCLoginSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       CertBasedOIDCLoginParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             CertBasedOIDCLoginParameters   `json:"forProvider"`
 }
 
 // A CertBasedOIDCLoginStatus represents the observed state of a CertBasedOIDCLogin.

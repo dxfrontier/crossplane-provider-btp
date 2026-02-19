@@ -128,6 +128,10 @@ type RetiredSBResource struct {
 // A ServiceBindingSpec defines the desired state of a ServiceBinding.
 type ServiceBindingSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
 
 	ForProvider ServiceBindingParameters `json:"forProvider"`
 

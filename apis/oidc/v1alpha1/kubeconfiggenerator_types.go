@@ -52,7 +52,11 @@ type KubeConfigGeneratorObservation struct {
 // A KubeConfigGeneratorSpec defines the desired state of a KubeConfigGenerator.
 type KubeConfigGeneratorSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       KubeConfigGeneratorParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             KubeConfigGeneratorParameters  `json:"forProvider"`
 }
 
 // A KubeConfigGeneratorStatus represents the observed state of a KubeConfigGenerator.

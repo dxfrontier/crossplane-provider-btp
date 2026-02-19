@@ -37,7 +37,11 @@ type KymaModuleParameters struct {
 // A KymaModuleSpec defines the desired state of a KymaModule.
 type KymaModuleSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       KymaModuleParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             KymaModuleParameters           `json:"forProvider"`
 	// +crossplane:generate:reference:type=github.com/sap/crossplane-provider-btp/apis/environment/v1alpha1.KymaEnvironmentBinding
 	// +crossplane:generate:reference:refFieldName=KymaEnvironmentBindingRef
 	// +crossplane:generate:reference:selectorFieldName=KymaEnvironmentBindingSelector

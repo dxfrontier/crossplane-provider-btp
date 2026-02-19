@@ -39,7 +39,11 @@ type KymaEnvironmentBindingObservation struct {
 // A KymaEnvironmentBindingSpec defines the desired state of a KymaEnvironmentBinding.
 type KymaEnvironmentBindingSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       KymaEnvironmentBindingParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference    `json:"providerConfigRef,omitempty"`
+	ForProvider             KymaEnvironmentBindingParameters `json:"forProvider"`
 	// +crossplane:generate:reference:type=github.com/sap/crossplane-provider-btp/apis/environment/v1alpha1.KymaEnvironment
 	// +crossplane:generate:reference:refFieldName=KymaEnvironmentRef
 	// +crossplane:generate:reference:selectorFieldName=KymaEnvironmentSelector

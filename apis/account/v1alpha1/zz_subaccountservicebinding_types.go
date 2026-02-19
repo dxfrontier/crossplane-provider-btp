@@ -136,7 +136,11 @@ type SubaccountServiceBindingParameters struct {
 // SubaccountServiceBindingSpec defines the desired state of SubaccountServiceBinding
 type SubaccountServiceBindingSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     SubaccountServiceBindingParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *v1.ProviderConfigReference       `json:"providerConfigRef,omitempty"`
+	ForProvider             SubaccountServiceBindingParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception

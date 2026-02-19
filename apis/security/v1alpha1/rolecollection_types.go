@@ -43,7 +43,11 @@ type RoleCollectionObservation struct {
 // A RoleCollectionSpec defines the desired state of a RoleCollection.
 type RoleCollectionSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       RoleCollectionParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             RoleCollectionParameters       `json:"forProvider"`
 
 	XSUAACredentialsReference `json:",inline"`
 }

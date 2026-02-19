@@ -153,7 +153,11 @@ type SubaccountServiceInstanceParameters struct {
 // SubaccountServiceInstanceSpec defines the desired state of SubaccountServiceInstance
 type SubaccountServiceInstanceSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     SubaccountServiceInstanceParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *v1.ProviderConfigReference        `json:"providerConfigRef,omitempty"`
+	ForProvider             SubaccountServiceInstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception

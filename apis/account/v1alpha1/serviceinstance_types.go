@@ -77,7 +77,11 @@ type ServiceInstanceObservation struct {
 // A ServiceInstanceSpec defines the desired state of a ServiceInstance.
 type ServiceInstanceSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       ServiceInstanceParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             ServiceInstanceParameters      `json:"forProvider"`
 }
 
 // A ServiceInstanceStatus represents the observed state of a ServiceInstance.

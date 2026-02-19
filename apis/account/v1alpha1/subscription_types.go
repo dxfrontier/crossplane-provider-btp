@@ -43,7 +43,11 @@ type SubscriptionObservation struct {
 // A SubscriptionSpec defines the desired state of a Subscription.
 type SubscriptionSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       SubscriptionParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             SubscriptionParameters         `json:"forProvider"`
 
 	// +kubebuilder:validation:Optional
 	CloudManagementSelector *xpv1.Selector `json:"cloudManagementSelector,omitempty"`

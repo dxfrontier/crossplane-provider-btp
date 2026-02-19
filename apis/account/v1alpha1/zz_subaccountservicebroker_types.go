@@ -150,7 +150,11 @@ type SubaccountServiceBrokerParameters struct {
 // SubaccountServiceBrokerSpec defines the desired state of SubaccountServiceBroker
 type SubaccountServiceBrokerSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     SubaccountServiceBrokerParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *v1.ProviderConfigReference      `json:"providerConfigRef,omitempty"`
+	ForProvider             SubaccountServiceBrokerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception

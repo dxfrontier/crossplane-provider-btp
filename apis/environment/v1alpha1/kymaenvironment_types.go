@@ -45,7 +45,11 @@ type KymaEnvironmentObservation struct {
 // A KymaEnvironmentSpec defines the desired state of a KymaEnvironment.
 type KymaEnvironmentSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       KymaEnvironmentParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             KymaEnvironmentParameters      `json:"forProvider"`
 	// +crossplane:generate:reference:type=github.com/sap/crossplane-provider-btp/apis/account/v1alpha1.Subaccount
 	// +crossplane:generate:reference:refFieldName=SubaccountRef
 	// +crossplane:generate:reference:selectorFieldName=SubaccountSelector

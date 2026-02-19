@@ -195,7 +195,11 @@ type Resource struct {
 // An EntitlementSpec defines the desired state of an Entitlement.
 type EntitlementSpec struct {
 	xpv1.ResourceSpec `json:",inline"`
-	ForProvider       EntitlementParameters `json:"forProvider"`
+	// ProviderConfigReference shadows ResourceSpec.ProviderConfigReference
+	// to include the Kind field required by crossplane-runtime v2.
+	// +kubebuilder:default={"name":"default","kind":"ProviderConfig"}
+	ProviderConfigReference *xpv1.ProviderConfigReference `json:"providerConfigRef,omitempty"`
+	ForProvider             EntitlementParameters          `json:"forProvider"`
 }
 
 // EntitlementSummary represents the required properties for all entitlements of the same kind / service / serviceplan
