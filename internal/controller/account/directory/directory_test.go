@@ -54,10 +54,11 @@ func TestConnect(t *testing.T) {
 			args: args{
 				cr: &v1alpha1.Directory{
 					Spec: v1alpha1.DirectorySpec{
-						ResourceSpec: xpv1.ResourceSpec{
-							ProviderConfigReference: &xpv1.Reference{
-								Name: "pc-reference",
-							}},
+						ResourceSpec: xpv1.ResourceSpec{},
+						ProviderConfigReference: &xpv1.ProviderConfigReference{
+							Name: "pc-reference",
+							Kind: "ProviderConfig",
+						},
 					},
 				},
 				kubeObjects: []client.Object{},
@@ -70,10 +71,11 @@ func TestConnect(t *testing.T) {
 			args: args{
 				cr: &v1alpha1.Directory{
 					Spec: v1alpha1.DirectorySpec{
-						ResourceSpec: xpv1.ResourceSpec{
-							ProviderConfigReference: &xpv1.Reference{
-								Name: "pc-reference",
-							}},
+						ResourceSpec: xpv1.ResourceSpec{},
+						ProviderConfigReference: &xpv1.ProviderConfigReference{
+							Name: "pc-reference",
+							Kind: "ProviderConfig",
+						},
 					},
 				},
 				kubeObjects: []client.Object{
@@ -88,10 +90,11 @@ func TestConnect(t *testing.T) {
 			args: args{
 				cr: &v1alpha1.Directory{
 					Spec: v1alpha1.DirectorySpec{
-						ResourceSpec: xpv1.ResourceSpec{
-							ProviderConfigReference: &xpv1.Reference{
-								Name: "pc-reference",
-							}},
+						ResourceSpec: xpv1.ResourceSpec{},
+						ProviderConfigReference: &xpv1.ProviderConfigReference{
+							Name: "pc-reference",
+							Kind: "ProviderConfig",
+						},
 					},
 				},
 				kubeObjects: []client.Object{
@@ -107,10 +110,11 @@ func TestConnect(t *testing.T) {
 			args: args{
 				cr: &v1alpha1.Directory{
 					Spec: v1alpha1.DirectorySpec{
-						ResourceSpec: xpv1.ResourceSpec{
-							ProviderConfigReference: &xpv1.Reference{
-								Name: "pc-reference",
-							}},
+						ResourceSpec: xpv1.ResourceSpec{},
+						ProviderConfigReference: &xpv1.ProviderConfigReference{
+							Name: "pc-reference",
+							Kind: "ProviderConfig",
+						},
 					},
 				},
 				kubeObjects: []client.Object{
@@ -127,10 +131,11 @@ func TestConnect(t *testing.T) {
 			args: args{
 				cr: &v1alpha1.Directory{
 					Spec: v1alpha1.DirectorySpec{
-						ResourceSpec: xpv1.ResourceSpec{
-							ProviderConfigReference: &xpv1.Reference{
-								Name: "pc-reference",
-							}},
+						ResourceSpec: xpv1.ResourceSpec{},
+						ProviderConfigReference: &xpv1.ProviderConfigReference{
+							Name: "pc-reference",
+							Kind: "ProviderConfig",
+						},
 					},
 				},
 				kubeObjects: []client.Object{
@@ -153,10 +158,11 @@ func TestConnect(t *testing.T) {
 			args: args{
 				cr: &v1alpha1.Directory{
 					Spec: v1alpha1.DirectorySpec{
-						ResourceSpec: xpv1.ResourceSpec{
-							ProviderConfigReference: &xpv1.Reference{
-								Name: "pc-reference",
-							}},
+						ResourceSpec: xpv1.ResourceSpec{},
+						ProviderConfigReference: &xpv1.ProviderConfigReference{
+							Name: "pc-reference",
+							Kind: "ProviderConfig",
+						},
 					},
 				},
 				kubeObjects: []client.Object{

@@ -106,11 +106,12 @@ func buildBaseTfResource(si *v1alpha1.ServiceInstance) *v1alpha1.SubaccountServi
 		},
 		Spec: v1alpha1.SubaccountServiceInstanceSpec{
 			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: pcName(si),
-				},
 				ManagementPolicies:               si.GetManagementPolicies(),
 				WriteConnectionSecretToReference: localToSecretRef(si.GetWriteConnectionSecretToReference()),
+			},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: pcName(si),
+				Kind: "ProviderConfig",
 			},
 			ForProvider: v1alpha1.SubaccountServiceInstanceParameters{
 				SubaccountID: si.Spec.ForProvider.SubaccountID,

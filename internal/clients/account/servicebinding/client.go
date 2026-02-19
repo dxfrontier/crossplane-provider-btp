@@ -132,10 +132,11 @@ func buildSubaccountServiceBinding(ctx context.Context, kube client.Client, sb *
 		},
 		Spec: v1alpha1.SubaccountServiceBindingSpec{
 			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: sb.GetProviderConfigReference().Name,
-				},
 				ManagementPolicies: []xpv1.ManagementAction{xpv1.ManagementActionAll},
+			},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: sb.GetProviderConfigReference().Name,
+				Kind: "ProviderConfig",
 			},
 			ForProvider: v1alpha1.SubaccountServiceBindingParameters{
 				SubaccountID:      sb.Spec.ForProvider.SubaccountID,

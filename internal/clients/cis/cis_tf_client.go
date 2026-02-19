@@ -88,10 +88,11 @@ func (tfI *TfClientInitializer) serviceInstanceCr(cm *apisv1beta1.CloudManagemen
 		},
 		Spec: apisv1alpha1.SubaccountServiceInstanceSpec{
 			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: cm.GetProviderConfigReference().Name,
-				},
 				ManagementPolicies: []xpv1.ManagementAction{xpv1.ManagementActionAll},
+			},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: cm.GetProviderConfigReference().Name,
+				Kind: "ProviderConfig",
 			},
 			ForProvider: apisv1alpha1.SubaccountServiceInstanceParameters{
 				Name:          getServiceInstanceName(cm),
@@ -123,10 +124,11 @@ func (tfI *TfClientInitializer) serviceBindingCr(cm *apisv1beta1.CloudManagement
 		},
 		Spec: apisv1alpha1.SubaccountServiceBindingSpec{
 			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: cm.GetProviderConfigReference().Name,
-				},
 				ManagementPolicies: []xpv1.ManagementAction{xpv1.ManagementActionAll},
+			},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: cm.GetProviderConfigReference().Name,
+				Kind: "ProviderConfig",
 			},
 			ForProvider: apisv1alpha1.SubaccountServiceBindingParameters{
 				Name:              getServiceBindingName(cm),

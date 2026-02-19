@@ -648,10 +648,10 @@ func testCMCr(params utilCloudManagementParams) *v1beta1.CloudManagement {
 				ServiceInstanceName: params.siName,
 				ServiceBindingName:  params.sbName,
 			},
-			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: "default",
-				},
+			ResourceSpec: xpv1.ResourceSpec{},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: "default",
+				Kind: "ProviderConfig",
 			},
 		},
 		Status: v1beta1.CloudManagementStatus{

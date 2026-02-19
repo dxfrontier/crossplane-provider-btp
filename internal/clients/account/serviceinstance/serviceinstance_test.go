@@ -365,16 +365,18 @@ func withTfExternalName(externalName string) func(*v1alpha1.SubaccountServiceIns
 
 func withProviderConfigRef(providerConfigName string) func(*v1alpha1.ServiceInstance) {
 	return func(cr *v1alpha1.ServiceInstance) {
-		cr.Spec.ProviderConfigReference = &xpv1.Reference{
+		cr.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{
 			Name: providerConfigName,
+			Kind: "ProviderConfig",
 		}
 	}
 }
 
 func withTfProviderConfigRef(providerConfigName string) func(*v1alpha1.SubaccountServiceInstance) {
 	return func(cr *v1alpha1.SubaccountServiceInstance) {
-		cr.Spec.ProviderConfigReference = &xpv1.Reference{
+		cr.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{
 			Name: providerConfigName,
+			Kind: "ProviderConfig",
 		}
 	}
 }

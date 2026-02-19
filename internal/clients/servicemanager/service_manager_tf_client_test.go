@@ -702,10 +702,10 @@ func testSMCr(saId, planId, extName, statusInstanceID, serviceInstanceName, serv
 				ServiceInstanceName: serviceInstanceName,
 				ServiceBindingName:  serviceBindingName,
 			},
-			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: "default",
-				},
+			ResourceSpec: xpv1.ResourceSpec{},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: "default",
+				Kind: "ProviderConfig",
 			},
 		},
 		Status: v1beta1.ServiceManagerStatus{

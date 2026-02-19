@@ -48,10 +48,10 @@ func TestServiceBindingClient_CreateInstance(t *testing.T) {
 			UID: "test-uid-123",
 		},
 		Spec: v1alpha1.ServiceBindingSpec{
-			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: "test-provider-config",
-				},
+			ResourceSpec: xpv1.ResourceSpec{},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: "test-provider-config",
+				Kind: "ProviderConfig",
 			},
 			ForProvider: v1alpha1.ServiceBindingParameters{
 				Name: "test-service-binding",
@@ -185,10 +185,10 @@ func TestServiceBindingClient_DeleteInstance(t *testing.T) {
 			UID: "test-uid-123",
 		},
 		Spec: v1alpha1.ServiceBindingSpec{
-			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: "test-provider-config",
-				},
+			ResourceSpec: xpv1.ResourceSpec{},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: "test-provider-config",
+				Kind: "ProviderConfig",
 			},
 			ForProvider: v1alpha1.ServiceBindingParameters{
 				Name: "test-service-binding",
@@ -312,10 +312,10 @@ func TestServiceBindingClient_ObserveInstance(t *testing.T) {
 			UID: "test-uid-123",
 		},
 		Spec: v1alpha1.ServiceBindingSpec{
-			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: "test-provider-config",
-				},
+			ResourceSpec: xpv1.ResourceSpec{},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: "test-provider-config",
+				Kind: "ProviderConfig",
 			},
 			ForProvider: v1alpha1.ServiceBindingParameters{
 				Name: "test-service-binding",
@@ -465,10 +465,10 @@ func TestServiceBindingClient_buildSubaccountServiceBinding(t *testing.T) {
 			DeletionTimestamp: &metav1.Time{Time: time.Now()},
 		},
 		Spec: v1alpha1.ServiceBindingSpec{
-			ResourceSpec: xpv1.ResourceSpec{
-				ProviderConfigReference: &xpv1.Reference{
-					Name: "test-provider-config",
-				},
+			ResourceSpec: xpv1.ResourceSpec{},
+			ProviderConfigReference: &xpv1.ProviderConfigReference{
+				Name: "test-provider-config",
+				Kind: "ProviderConfig",
 			},
 			ForProvider: v1alpha1.ServiceBindingParameters{
 				Name: "test-service-binding",
