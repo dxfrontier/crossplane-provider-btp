@@ -36,6 +36,9 @@ limitations under the License.
 // Run Upjet generator
 //go:generate go run ../cmd/generator/main.go ..
 
+// Fix ProviderConfigReference: re-add shadow field lost by upjet regen + fix managed adapters
+//go:generate bash ../scripts/fix-providerconfig-shadow.sh .
+
 // Fix upjet-generated controller files for controller-runtime v0.23+ generic API
 //go:generate ../hack/helpers/fix_generated_controllers.sh
 
@@ -47,6 +50,9 @@ limitations under the License.
 
 // Generate crossplane-runtime methodsets (resource.Claim, etc)
 //go:generate go run -tags generate github.com/crossplane/crossplane-tools/cmd/angryjet generate-methodsets --header-file=../hack/boilerplate.go.txt ./...
+
+// Fix ProviderConfigReference again after angryjet regenerated managed.go
+//go:generate bash ../scripts/fix-providerconfig-shadow.sh .
 
 // disables CRD usage, by taking reference to controller folder relative to internal/controller, removing its controller and usages as well as the package file
 //go:generate ../hack/helpers/disable_crds.sh account/subaccountserviceinstance account/subaccountservicebinding
