@@ -66,4 +66,26 @@ find "$BASE_DIR" -name 'zz_generated.managed.go' -exec \
 find "$BASE_DIR" -name 'zz_generated.managed.go' -exec \
     sed -i 's/return &xpv1\.ProviderConfigReference{Name: mg\.Spec\.ProviderConfigReference\.Name}/return \&xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}/g' {} +
 
+# 4. Fix MRD scope: make ALL upjet-generated resources Namespaced.
+#    The generator hardcodes scope=Cluster (pcNamespace=nil), but our
+#    ProviderConfig is Namespaced, so all MRDs must be Namespaced too.
+#    Without this, cluster-scoped MRs cannot find the namespaced ProviderConfig.
+echo ">> Fixing MRD scope to Namespaced..."
+for f in $(find "$BASE_DIR" -name 'zz_*_types.go'); do
+    if grep -q 'scope=Cluster' "$f" 2>/dev/null; then
+        sed -i 's/scope=Cluster/scope=Namespaced/g' "$f"
+        echo "   patched scope: $f"
+    fi
+done
+# Also fix the generated CRD YAMLs
+CRD_DIR="${BASE_DIR}/../package/crds"
+if [ -d "$CRD_DIR" ]; then
+    for f in "$CRD_DIR"/*.yaml; do
+        if grep -q 'scope: Cluster' "$f" 2>/dev/null; then
+            sed -i 's/scope: Cluster/scope: Namespaced/g' "$f"
+            echo "   patched CRD scope: $f"
+        fi
+    done
+fi
+
 echo ">> ProviderConfigReference fixes applied successfully"
