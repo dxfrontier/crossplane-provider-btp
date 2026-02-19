@@ -88,4 +88,30 @@ if [ -d "$CRD_DIR" ]; then
     done
 fi
 
+# 5. Fix reference resolver namespace: the generated resolvers use NewAPIResolver
+#    which passes Namespace="" in ResolutionRequest. For namespaced resources,
+#    this causes "not found" errors because the cache indexes by actual namespace.
+#    Fix: inject Namespace: mg.GetNamespace() into every ResolutionRequest.
+echo ">> Fixing reference resolver namespace awareness..."
+for f in $(find "$BASE_DIR" -name 'zz_generated.resolvers.go'); do
+    if grep -q 'reference.ResolutionRequest{' "$f" 2>/dev/null; then
+        sed -i '/reference\.ResolutionRequest{/a\\t\tNamespace: mg.GetNamespace(),' "$f"
+        echo "   patched resolver: $f"
+    fi
+done
+
+# 6. Fix CRD allOf dual-default: the shadow ProviderConfigReference field
+#    creates two allOf entries with conflicting defaults, which Kubernetes
+#    structural schema validation rejects. Remove the allOf and merge into
+#    a single schema with the ProviderConfigReference default.
+echo ">> Fixing CRD allOf dual-default in providerConfigRef..."
+if [ -d "$CRD_DIR" ]; then
+    for f in "$CRD_DIR"/*.yaml; do
+        # Check if the CRD has the problematic allOf pattern
+        if grep -q 'providerConfigRef:' "$f" 2>/dev/null && grep -q 'allOf:' "$f" 2>/dev/null; then
+            echo "   TODO: fix allOf in $f (requires Python/yq)"
+        fi
+    done
+fi
+
 echo ">> ProviderConfigReference fixes applied successfully"

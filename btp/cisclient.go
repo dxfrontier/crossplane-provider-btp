@@ -295,7 +295,7 @@ func (c *Client) UpdateKymaEnvironment(ctx context.Context, environmentInstanceI
 }
 
 func (c *Client) CreateCloudFoundryOrg(
-	ctx context.Context, serviceAccountEmail string, resourceUID string,
+	ctx context.Context, serviceAccountEmail string, origin string, resourceUID string,
 	landscape string, orgName string, environmentName string,
 ) (createdOrg string, err error) {
 	parameters := map[string]interface{}{
@@ -308,12 +308,18 @@ func (c *Client) CreateCloudFoundryOrg(
 	if environmentName != "" {
 		envName = &environmentName
 	}
+
+	var originPtr *string
+	if origin != "" {
+		originPtr = &origin
+	}
+
 	payload := provisioningclient.CreateEnvironmentInstanceRequestPayload{
 		Description:     internal.Ptr("created via crossplane-btp-account-provider"),
 		EnvironmentType: envType.Identifier,
 		LandscapeLabel:  &landscape,
 		Name:            envName,
-		Origin:          nil,
+		Origin:          originPtr,
 		Parameters:      parameters,
 		PlanName:        cloudFoundryPlanName,
 		ServiceName:     envType.ServiceName,
@@ -329,7 +335,7 @@ func (c *Client) CreateCloudFoundryOrg(
 }
 
 func (c *Client) CreateCloudFoundryOrgIfNotExists(
-	ctx context.Context, instanceName string, serviceAccountEmail string, resourceUID string,
+	ctx context.Context, instanceName string, serviceAccountEmail string, origin string, resourceUID string,
 	landscape string, orgName string, environmentName string,
 ) (*CloudFoundryOrg, error) {
 	cfEnvironment, err := c.GetCFEnvironmentByNameAndOrg(ctx, instanceName, orgName)
@@ -338,7 +344,7 @@ func (c *Client) CreateCloudFoundryOrgIfNotExists(
 	}
 	var orgId string
 	if cfEnvironment == nil {
-		orgId, err = c.CreateCloudFoundryOrg(ctx, serviceAccountEmail, resourceUID, landscape, orgName, environmentName)
+		orgId, err = c.CreateCloudFoundryOrg(ctx, serviceAccountEmail, origin, resourceUID, landscape, orgName, environmentName)
 		if err != nil {
 			return nil, err
 		}
