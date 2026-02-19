@@ -162,7 +162,11 @@ func (d *DirectoryClient) SyncStatus(ctx context.Context) error {
 	d.cr.Status.AtProvider.EntityState = d.cachedApi.EntityState
 	d.cr.Status.AtProvider.StateMessage = d.cachedApi.StateMessage
 	d.cr.Status.AtProvider.Subdomain = d.cachedApi.Subdomain
-	d.cr.Status.AtProvider.DirectoryFeatures = d.cachedApi.DirectoryFeatures
+	if d.cachedApi.DirectoryFeatures != nil {
+		d.cr.Status.AtProvider.DirectoryFeatures = d.cachedApi.DirectoryFeatures
+	} else {
+		d.cr.Status.AtProvider.DirectoryFeatures = []string{}
+	}
 
 	return nil
 }

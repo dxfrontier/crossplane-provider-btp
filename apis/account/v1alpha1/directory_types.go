@@ -35,7 +35,7 @@ type DirectoryParameters struct {
 	// [DEFAULT,ENTITLEMENTS,AUTHORIZATIONS]<br/>
 	// Unique: true
 	// +optional
-	DirectoryFeatures []string `json:"directoryFeatures"`
+	DirectoryFeatures []string `json:"directoryFeatures,omitempty"`
 
 	// The display name of the directory.
 	DisplayName *string `json:"displayName"`
@@ -83,7 +83,8 @@ type DirectoryObservation struct {
 	// Subdomain currently present in external system
 	Subdomain *string `json:"subdomain,omitempty"`
 	// Features currently present in external system
-	DirectoryFeatures []string `json:"directoryFeatures"`
+	// +optional
+	DirectoryFeatures []string `json:"directoryFeatures,omitempty"`
 }
 
 // A DirectorySpec defines the desired state of a Directory.

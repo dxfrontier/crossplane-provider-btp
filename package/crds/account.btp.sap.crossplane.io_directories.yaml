@@ -343,8 +343,6 @@ spec:
                   subdomain:
                     description: Subdomain currently present in external system
                     type: string
-                required:
-                - directoryFeatures
                 type: object
               conditions:
                 description: Conditions of the resource.
