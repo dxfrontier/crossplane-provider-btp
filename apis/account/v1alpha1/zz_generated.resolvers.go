@@ -34,6 +34,7 @@ func (mg *CloudManagement) ResolveReferences(ctx context.Context, c client.Reade
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.ForProvider.SubaccountGuid,
 		Extract:      SubaccountUuid(),
 		Reference:    mg.Spec.ForProvider.SubaccountRef,
@@ -50,6 +51,7 @@ func (mg *CloudManagement) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.SubaccountRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.ForProvider.ServiceManagerSecret,
 		Extract:      ServiceManagerSecret(),
 		Reference:    mg.Spec.ForProvider.ServiceManagerRef,
@@ -66,6 +68,7 @@ func (mg *CloudManagement) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.ServiceManagerRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.ForProvider.ServiceManagerSecretNamespace,
 		Extract:      ServiceManagerSecretNamespace(),
 		Reference:    mg.Spec.ForProvider.ServiceManagerRef,
@@ -92,6 +95,7 @@ func (mg *Directory) ResolveReferences(ctx context.Context, c client.Reader) err
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.ForProvider.DirectoryGuid,
 		Extract:      DirectoryUuid(),
 		Reference:    mg.Spec.ForProvider.DirectoryRef,
@@ -118,6 +122,7 @@ func (mg *DirectoryEntitlement) ResolveReferences(ctx context.Context, c client.
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DirectoryID),
 		Extract:      DirectoryUuid(),
 		Reference:    mg.Spec.ForProvider.DirectoryRef,
@@ -134,6 +139,7 @@ func (mg *DirectoryEntitlement) ResolveReferences(ctx context.Context, c client.
 	mg.Spec.ForProvider.DirectoryRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DirectoryID),
 		Extract:      DirectoryUuid(),
 		Reference:    mg.Spec.InitProvider.DirectoryRef,
@@ -160,6 +166,7 @@ func (mg *Entitlement) ResolveReferences(ctx context.Context, c client.Reader) e
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.ForProvider.SubaccountGuid,
 		Extract:      SubaccountUuid(),
 		Reference:    mg.Spec.ForProvider.SubaccountRef,
@@ -186,6 +193,7 @@ func (mg *ServiceBinding) ResolveReferences(ctx context.Context, c client.Reader
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubaccountID),
 		Extract:      SubaccountUuid(),
 		Reference:    mg.Spec.ForProvider.SubaccountRef,
@@ -202,6 +210,7 @@ func (mg *ServiceBinding) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.ForProvider.SubaccountRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceInstanceID),
 		Extract:      ServiceInstanceUuid(),
 		Reference:    mg.Spec.ForProvider.ServiceInstanceRef,
@@ -228,6 +237,7 @@ func (mg *ServiceInstance) ResolveReferences(ctx context.Context, c client.Reade
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.ForProvider.ServiceManagerSecret,
 		Extract:      ServiceManagerSecret(),
 		Reference:    mg.Spec.ForProvider.ServiceManagerRef,
@@ -244,6 +254,7 @@ func (mg *ServiceInstance) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.ServiceManagerRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.ForProvider.ServiceManagerSecretNamespace,
 		Extract:      ServiceManagerSecretNamespace(),
 		Reference:    mg.Spec.ForProvider.ServiceManagerRef,
@@ -260,6 +271,7 @@ func (mg *ServiceInstance) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.ForProvider.ServiceManagerRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubaccountID),
 		Extract:      SubaccountUuid(),
 		Reference:    mg.Spec.ForProvider.SubaccountRef,
@@ -286,6 +298,7 @@ func (mg *ServiceManager) ResolveReferences(ctx context.Context, c client.Reader
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.ForProvider.SubaccountGuid,
 		Extract:      SubaccountUuid(),
 		Reference:    mg.Spec.ForProvider.SubaccountRef,
@@ -312,6 +325,7 @@ func (mg *Subaccount) ResolveReferences(ctx context.Context, c client.Reader) er
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ParentID),
 		Extract:      DirectoryUuid(),
 		Reference:    mg.Spec.ForProvider.ParentRef,
@@ -328,6 +342,7 @@ func (mg *Subaccount) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.ForProvider.ParentRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ParentID),
 		Extract:      DirectoryUuid(),
 		Reference:    mg.Spec.InitProvider.ParentRef,
@@ -354,6 +369,7 @@ func (mg *SubaccountServiceBroker) ResolveReferences(ctx context.Context, c clie
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubaccountID),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.ForProvider.SubaccountRef,
@@ -370,6 +386,7 @@ func (mg *SubaccountServiceBroker) ResolveReferences(ctx context.Context, c clie
 	mg.Spec.ForProvider.SubaccountRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubaccountID),
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.InitProvider.SubaccountRef,
@@ -396,6 +413,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecret,
 		Extract:      CloudManagementSecret(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -412,6 +430,7 @@ func (mg *Subscription) ResolveReferences(ctx context.Context, c client.Reader) 
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecretNamespace,
 		Extract:      CloudManagementSecretNamespace(),
 		Reference:    mg.Spec.CloudManagementRef,

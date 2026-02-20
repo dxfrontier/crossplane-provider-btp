@@ -35,6 +35,7 @@ func (mg *RoleCollection) ResolveReferences(ctx context.Context, c client.Reader
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialSecret,
 		Extract:      SubaccountApiCredentialSecret(),
 		Reference:    mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialRef,
@@ -51,6 +52,7 @@ func (mg *RoleCollection) ResolveReferences(ctx context.Context, c client.Reader
 	mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialSecretNamespace,
 		Extract:      SubaccountApiCredentialSecretNamespace(),
 		Reference:    mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialRef,
@@ -77,6 +79,7 @@ func (mg *RoleCollectionAssignment) ResolveReferences(ctx context.Context, c cli
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialSecret,
 		Extract:      SubaccountApiCredentialSecret(),
 		Reference:    mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialRef,
@@ -93,6 +96,7 @@ func (mg *RoleCollectionAssignment) ResolveReferences(ctx context.Context, c cli
 	mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialSecretNamespace,
 		Extract:      SubaccountApiCredentialSecretNamespace(),
 		Reference:    mg.Spec.XSUAACredentialsReference.SubaccountApiCredentialRef,
@@ -119,6 +123,7 @@ func (mg *SubaccountApiCredential) ResolveReferences(ctx context.Context, c clie
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubaccountID),
 		Extract:      v1alpha1.SubaccountUuid(),
 		Reference:    mg.Spec.ForProvider.SubaccountRef,
@@ -135,6 +140,7 @@ func (mg *SubaccountApiCredential) ResolveReferences(ctx context.Context, c clie
 	mg.Spec.ForProvider.SubaccountRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubaccountID),
 		Extract:      v1alpha1.SubaccountUuid(),
 		Reference:    mg.Spec.InitProvider.SubaccountRef,
@@ -161,6 +167,7 @@ func (mg *SubaccountTrustConfiguration) ResolveReferences(ctx context.Context, c
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubaccountID),
 		Extract:      v1alpha1.SubaccountUuid(),
 		Reference:    mg.Spec.ForProvider.SubaccountRef,
@@ -177,6 +184,7 @@ func (mg *SubaccountTrustConfiguration) ResolveReferences(ctx context.Context, c
 	mg.Spec.ForProvider.SubaccountRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubaccountID),
 		Extract:      v1alpha1.SubaccountUuid(),
 		Reference:    mg.Spec.InitProvider.SubaccountRef,

@@ -35,6 +35,7 @@ func (mg *CloudFoundryEnvironment) ResolveReferences(ctx context.Context, c clie
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.SubaccountGuid,
 		Extract:      v1alpha1.SubaccountUuid(),
 		Reference:    mg.Spec.SubaccountRef,
@@ -51,6 +52,7 @@ func (mg *CloudFoundryEnvironment) ResolveReferences(ctx context.Context, c clie
 	mg.Spec.SubaccountRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecret,
 		Extract:      v1alpha1.CloudManagementSecret(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -67,6 +69,7 @@ func (mg *CloudFoundryEnvironment) ResolveReferences(ctx context.Context, c clie
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecretNamespace,
 		Extract:      v1alpha1.CloudManagementSecretNamespace(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -83,6 +86,7 @@ func (mg *CloudFoundryEnvironment) ResolveReferences(ctx context.Context, c clie
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSubaccountGuid,
 		Extract:      v1alpha1.CloudManagementSubaccountUuid(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -109,6 +113,7 @@ func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reade
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.SubaccountGuid,
 		Extract:      v1alpha1.SubaccountUuid(),
 		Reference:    mg.Spec.SubaccountRef,
@@ -125,6 +130,7 @@ func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.SubaccountRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecret,
 		Extract:      v1alpha1.CloudManagementSecret(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -141,6 +147,7 @@ func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecretNamespace,
 		Extract:      v1alpha1.CloudManagementSecretNamespace(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -157,6 +164,7 @@ func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSubaccountGuid,
 		Extract:      v1alpha1.CloudManagementSubaccountUuid(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -183,6 +191,7 @@ func (mg *KymaEnvironmentBinding) ResolveReferences(ctx context.Context, c clien
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.KymaEnvironmentId,
 		Extract:      KymaInstanceId(),
 		Reference:    mg.Spec.KymaEnvironmentRef,
@@ -199,6 +208,7 @@ func (mg *KymaEnvironmentBinding) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.KymaEnvironmentRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecret,
 		Extract:      v1alpha1.CloudManagementSecret(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -215,6 +225,7 @@ func (mg *KymaEnvironmentBinding) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecretNamespace,
 		Extract:      v1alpha1.CloudManagementSecretNamespace(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -231,6 +242,7 @@ func (mg *KymaEnvironmentBinding) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSubaccountGuid,
 		Extract:      v1alpha1.CloudManagementSubaccountUuid(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -257,6 +269,7 @@ func (mg *KymaModule) ResolveReferences(ctx context.Context, c client.Reader) er
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.KymaEnvironmentBindingId,
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.KymaEnvironmentBindingRef,
@@ -273,6 +286,7 @@ func (mg *KymaModule) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.KymaEnvironmentBindingRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.KymaEnvironmentBindingSecret,
 		Extract:      KymaEnvironmentBindingSecret(),
 		Reference:    mg.Spec.KymaEnvironmentBindingRef,
@@ -289,6 +303,7 @@ func (mg *KymaModule) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.KymaEnvironmentBindingRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		Namespace: mg.GetNamespace(),
 		CurrentValue: mg.Spec.KymaEnvironmentBindingSecretNamespace,
 		Extract:      KymaEnvironmentBindingSecretNamespace(),
 		Reference:    mg.Spec.KymaEnvironmentBindingRef,
