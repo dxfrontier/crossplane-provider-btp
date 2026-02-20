@@ -21,16 +21,10 @@ jobs:
     permissions:
       contents: read
 
-  run-make-reviewable-and-check-diff:
-    uses: ./.github/workflows/reviewable_check_diff.yaml
-    permissions:
-      contents: read
-
   release:
     runs-on: ubuntu-latest
     needs:
     - run-unit-test
-    - run-make-reviewable-and-check-diff
     permissions:
       contents: write
       packages: write

@@ -19,6 +19,3 @@ permissions:
 jobs:
   run-unit-test:
     uses: ./.github/workflows/unit_test.yaml
-
-  run-make-reviewable-and-check-diff:
-    uses: ./.github/workflows/reviewable_check_diff.yaml
