@@ -92,11 +92,16 @@ fi
 #    which passes Namespace="" in ResolutionRequest. For namespaced resources,
 #    this causes "not found" errors because the cache indexes by actual namespace.
 #    Fix: inject Namespace: mg.GetNamespace() into every ResolutionRequest.
+#    Skip if already patched (idempotent).
 echo ">> Fixing reference resolver namespace awareness..."
 for f in $(find "$BASE_DIR" -name 'zz_generated.resolvers.go'); do
     if grep -q 'reference.ResolutionRequest{' "$f" 2>/dev/null; then
-        sed -i '/reference\.ResolutionRequest{/a\\t\tNamespace: mg.GetNamespace(),' "$f"
-        echo "   patched resolver: $f"
+        if grep -q 'Namespace:' "$f" 2>/dev/null; then
+            echo "   already has Namespace: $f (skipping)"
+        else
+            sed -i '/reference\.ResolutionRequest{/a\\t\tNamespace: mg.GetNamespace(),' "$f"
+            echo "   patched resolver: $f"
+        fi
     fi
 done
 
