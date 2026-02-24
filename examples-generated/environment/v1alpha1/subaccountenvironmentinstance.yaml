@@ -1,0 +1,21 @@
+apiVersion: environment.btp.sap.crossplane.io/v1alpha1
+kind: SubaccountEnvironmentInstance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: environment/v1alpha1/subaccountenvironmentinstance
+  labels:
+    testing.upbound.io/example-name: cloudfoundry
+  name: cloudfoundry
+spec:
+  forProvider:
+    environmentType: cloudfoundry
+    name: my-cf-environment
+    parameters: |-
+      ${jsonencode({
+          instance_name = "my-cf-org-name"
+        })}
+    planName: standard
+    serviceName: cloudfoundry
+    subaccountSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

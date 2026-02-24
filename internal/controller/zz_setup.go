@@ -24,6 +24,7 @@ import (
 	directoryentitlement "github.com/sap/crossplane-provider-btp/internal/controller/account/directoryentitlement"
 	subaccount "github.com/sap/crossplane-provider-btp/internal/controller/account/subaccount"
 	subaccountservicebroker "github.com/sap/crossplane-provider-btp/internal/controller/account/subaccountservicebroker"
+	subaccountenvironmentinstance "github.com/sap/crossplane-provider-btp/internal/controller/environment/subaccountenvironmentinstance"
 	providerconfig "github.com/sap/crossplane-provider-btp/internal/controller/providerconfig"
 	globalaccounttrustconfiguration "github.com/sap/crossplane-provider-btp/internal/controller/security/globalaccounttrustconfiguration"
 	subaccountapicredential "github.com/sap/crossplane-provider-btp/internal/controller/security/subaccountapicredential"
@@ -37,6 +38,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		directoryentitlement.Setup,
 		subaccount.Setup,
 		subaccountservicebroker.Setup,
+		subaccountenvironmentinstance.Setup,
 		providerconfig.Setup,
 		globalaccounttrustconfiguration.Setup,
 		subaccountapicredential.Setup,
@@ -56,6 +58,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		directoryentitlement.Setup,
 		subaccount.Setup,
 		subaccountservicebroker.Setup,
+		subaccountenvironmentinstance.Setup,
 		providerconfig.Setup,
 		globalaccounttrustconfiguration.Setup,
 		subaccountapicredential.Setup,

@@ -27,84 +27,6 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// ResolveReferences of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPIResolver(c, mg)
-
-	var rsp reference.ResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
-		CurrentValue: mg.Spec.SubaccountGuid,
-		Extract:      v1alpha1.SubaccountUuid(),
-		Reference:    mg.Spec.SubaccountRef,
-		Selector:     mg.Spec.SubaccountSelector,
-		To: reference.To{
-			List:    &v1alpha1.SubaccountList{},
-			Managed: &v1alpha1.Subaccount{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.SubaccountGuid")
-	}
-	mg.Spec.SubaccountGuid = rsp.ResolvedValue
-	mg.Spec.SubaccountRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
-		CurrentValue: mg.Spec.CloudManagementSecret,
-		Extract:      v1alpha1.CloudManagementSecret(),
-		Reference:    mg.Spec.CloudManagementRef,
-		Selector:     mg.Spec.CloudManagementSelector,
-		To: reference.To{
-			List:    &v1alpha1.CloudManagementList{},
-			Managed: &v1alpha1.CloudManagement{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.CloudManagementSecret")
-	}
-	mg.Spec.CloudManagementSecret = rsp.ResolvedValue
-	mg.Spec.CloudManagementRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
-		CurrentValue: mg.Spec.CloudManagementSecretNamespace,
-		Extract:      v1alpha1.CloudManagementSecretNamespace(),
-		Reference:    mg.Spec.CloudManagementRef,
-		Selector:     mg.Spec.CloudManagementSelector,
-		To: reference.To{
-			List:    &v1alpha1.CloudManagementList{},
-			Managed: &v1alpha1.CloudManagement{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.CloudManagementSecretNamespace")
-	}
-	mg.Spec.CloudManagementSecretNamespace = rsp.ResolvedValue
-	mg.Spec.CloudManagementRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
-		CurrentValue: mg.Spec.CloudManagementSubaccountGuid,
-		Extract:      v1alpha1.CloudManagementSubaccountUuid(),
-		Reference:    mg.Spec.CloudManagementRef,
-		Selector:     mg.Spec.CloudManagementSelector,
-		To: reference.To{
-			List:    &v1alpha1.CloudManagementList{},
-			Managed: &v1alpha1.CloudManagement{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.CloudManagementSubaccountGuid")
-	}
-	mg.Spec.CloudManagementSubaccountGuid = rsp.ResolvedValue
-	mg.Spec.CloudManagementRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this KymaEnvironment.
 func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
@@ -113,7 +35,7 @@ func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reade
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.SubaccountGuid,
 		Extract:      v1alpha1.SubaccountUuid(),
 		Reference:    mg.Spec.SubaccountRef,
@@ -130,7 +52,7 @@ func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.SubaccountRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecret,
 		Extract:      v1alpha1.CloudManagementSecret(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -147,7 +69,7 @@ func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecretNamespace,
 		Extract:      v1alpha1.CloudManagementSecretNamespace(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -164,7 +86,7 @@ func (mg *KymaEnvironment) ResolveReferences(ctx context.Context, c client.Reade
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSubaccountGuid,
 		Extract:      v1alpha1.CloudManagementSubaccountUuid(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -191,7 +113,7 @@ func (mg *KymaEnvironmentBinding) ResolveReferences(ctx context.Context, c clien
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.KymaEnvironmentId,
 		Extract:      KymaInstanceId(),
 		Reference:    mg.Spec.KymaEnvironmentRef,
@@ -208,7 +130,7 @@ func (mg *KymaEnvironmentBinding) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.KymaEnvironmentRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecret,
 		Extract:      v1alpha1.CloudManagementSecret(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -225,7 +147,7 @@ func (mg *KymaEnvironmentBinding) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSecretNamespace,
 		Extract:      v1alpha1.CloudManagementSecretNamespace(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -242,7 +164,7 @@ func (mg *KymaEnvironmentBinding) ResolveReferences(ctx context.Context, c clien
 	mg.Spec.CloudManagementRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.CloudManagementSubaccountGuid,
 		Extract:      v1alpha1.CloudManagementSubaccountUuid(),
 		Reference:    mg.Spec.CloudManagementRef,
@@ -269,7 +191,7 @@ func (mg *KymaModule) ResolveReferences(ctx context.Context, c client.Reader) er
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.KymaEnvironmentBindingId,
 		Extract:      reference.ExternalName(),
 		Reference:    mg.Spec.KymaEnvironmentBindingRef,
@@ -286,7 +208,7 @@ func (mg *KymaModule) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.KymaEnvironmentBindingRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.KymaEnvironmentBindingSecret,
 		Extract:      KymaEnvironmentBindingSecret(),
 		Reference:    mg.Spec.KymaEnvironmentBindingRef,
@@ -303,7 +225,7 @@ func (mg *KymaModule) ResolveReferences(ctx context.Context, c client.Reader) er
 	mg.Spec.KymaEnvironmentBindingRef = rsp.ResolvedReference
 
 	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-		Namespace: mg.GetNamespace(),
+		Namespace:    mg.GetNamespace(),
 		CurrentValue: mg.Spec.KymaEnvironmentBindingSecretNamespace,
 		Extract:      KymaEnvironmentBindingSecretNamespace(),
 		Reference:    mg.Spec.KymaEnvironmentBindingRef,
@@ -318,6 +240,48 @@ func (mg *KymaModule) ResolveReferences(ctx context.Context, c client.Reader) er
 	}
 	mg.Spec.KymaEnvironmentBindingSecretNamespace = rsp.ResolvedValue
 	mg.Spec.KymaEnvironmentBindingRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.SubaccountID),
+		Extract:      v1alpha1.SubaccountUuid(),
+		Reference:    mg.Spec.ForProvider.SubaccountRef,
+		Selector:     mg.Spec.ForProvider.SubaccountSelector,
+		To: reference.To{
+			List:    &v1alpha1.SubaccountList{},
+			Managed: &v1alpha1.Subaccount{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.SubaccountID")
+	}
+	mg.Spec.ForProvider.SubaccountID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.SubaccountRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.SubaccountID),
+		Extract:      v1alpha1.SubaccountUuid(),
+		Reference:    mg.Spec.InitProvider.SubaccountRef,
+		Selector:     mg.Spec.InitProvider.SubaccountSelector,
+		To: reference.To{
+			List:    &v1alpha1.SubaccountList{},
+			Managed: &v1alpha1.Subaccount{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.SubaccountID")
+	}
+	mg.Spec.InitProvider.SubaccountID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.SubaccountRef = rsp.ResolvedReference
 
 	return nil
 }

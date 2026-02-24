@@ -22,7 +22,8 @@ package apis
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/sap/crossplane-provider-btp/apis/account/v1alpha1"
+	v1alpha1account "github.com/sap/crossplane-provider-btp/apis/account/v1alpha1"
+	v1alpha1environment "github.com/sap/crossplane-provider-btp/apis/environment/v1alpha1"
 	v1alpha1security "github.com/sap/crossplane-provider-btp/apis/security/v1alpha1"
 	v1alpha1apis "github.com/sap/crossplane-provider-btp/apis/v1alpha1"
 	v1beta1 "github.com/sap/crossplane-provider-btp/apis/v1beta1"
@@ -31,7 +32,8 @@ import (
 func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
-		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1account.SchemeBuilder.AddToScheme,
+		v1alpha1environment.SchemeBuilder.AddToScheme,
 		v1alpha1security.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,

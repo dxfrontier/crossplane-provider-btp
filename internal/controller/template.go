@@ -14,8 +14,6 @@ import (
 	"github.com/sap/crossplane-provider-btp/internal/controller/account/resourceusage"
 	"github.com/sap/crossplane-provider-btp/internal/controller/account/servicemanager"
 	"github.com/sap/crossplane-provider-btp/internal/controller/account/subscription"
-	"github.com/sap/crossplane-provider-btp/internal/controller/environment/cloudfoundry"
-
 	"github.com/sap/crossplane-provider-btp/internal/controller/environment/kyma"
 	"github.com/sap/crossplane-provider-btp/internal/controller/kymaenvironmentbinding"
 	"github.com/sap/crossplane-provider-btp/internal/controller/oidc/certbasedoidclogin"
@@ -29,7 +27,6 @@ import (
 func CustomSetup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		globalaccount.Setup,
-		cloudfoundry.Setup,
 		kyma.Setup,
 		entitlement.Setup,
 		cloudmanagement.Setup,

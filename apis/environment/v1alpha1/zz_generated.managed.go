@@ -20,70 +20,6 @@ package v1alpha1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
-// GetCondition of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
-	return mg.Status.GetCondition(ct)
-}
-
-// GetDeletionPolicy of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) GetDeletionPolicy() xpv1.DeletionPolicy {
-	return mg.Spec.DeletionPolicy
-}
-
-// GetManagementPolicies of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) GetManagementPolicies() xpv1.ManagementPolicies {
-	return mg.Spec.ManagementPolicies
-}
-
-// GetProviderConfigReference of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) GetProviderConfigReference() *xpv1.ProviderConfigReference {
-	if mg.Spec.ProviderConfigReference == nil {
-		return nil
-	}
-	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
-}
-
-// GetWriteConnectionSecretToReference of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
-	if mg.Spec.WriteConnectionSecretToReference == nil {
-		return nil
-	}
-	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
-}
-
-// SetConditions of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) SetConditions(c ...xpv1.Condition) {
-	mg.Status.SetConditions(c...)
-}
-
-// SetDeletionPolicy of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) SetDeletionPolicy(r xpv1.DeletionPolicy) {
-	mg.Spec.DeletionPolicy = r
-}
-
-// SetManagementPolicies of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) SetManagementPolicies(r xpv1.ManagementPolicies) {
-	mg.Spec.ManagementPolicies = r
-}
-
-// SetProviderConfigReference of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
-	if r == nil {
-		mg.Spec.ProviderConfigReference = nil
-		return
-	}
-	mg.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}
-}
-
-// SetWriteConnectionSecretToReference of this CloudFoundryEnvironment.
-func (mg *CloudFoundryEnvironment) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
-	if r == nil {
-		mg.Spec.WriteConnectionSecretToReference = nil
-		return
-	}
-	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
-}
-
 // GetCondition of this KymaEnvironment.
 func (mg *KymaEnvironment) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -269,6 +205,70 @@ func (mg *KymaModule) SetProviderConfigReference(r *xpv1.ProviderConfigReference
 
 // SetWriteConnectionSecretToReference of this KymaModule.
 func (mg *KymaModule) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	if r == nil {
+		mg.Spec.WriteConnectionSecretToReference = nil
+		return
+	}
+	mg.Spec.WriteConnectionSecretToReference = &xpv1.SecretReference{Name: r.Name}
+}
+
+// GetCondition of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	if mg.Spec.ProviderConfigReference == nil {
+		return nil
+	}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
+}
+
+// GetWriteConnectionSecretToReference of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	if mg.Spec.WriteConnectionSecretToReference == nil {
+		return nil
+	}
+	return &xpv1.LocalSecretReference{Name: mg.Spec.WriteConnectionSecretToReference.Name}
+}
+
+// SetConditions of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	if r == nil {
+		mg.Spec.ProviderConfigReference = nil
+		return
+	}
+	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
+}
+
+// SetWriteConnectionSecretToReference of this SubaccountEnvironmentInstance.
+func (mg *SubaccountEnvironmentInstance) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	if r == nil {
 		mg.Spec.WriteConnectionSecretToReference = nil
 		return

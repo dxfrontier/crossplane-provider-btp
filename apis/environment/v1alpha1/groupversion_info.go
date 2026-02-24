@@ -13,11 +13,18 @@ import (
 const (
 	Group   = "environment.btp.sap.crossplane.io"
 	Version = "v1alpha1"
+
+	// CRDGroup and CRDVersion are used by upjet-generated types.
+	CRDGroup   = Group
+	CRDVersion = Version
 )
 
 var (
 	// SchemeGroupVersion is group version used to register these objects
 	SchemeGroupVersion = schema.GroupVersion{Group: Group, Version: Version}
+
+	// CRDGroupVersion is the API Group Version used by upjet-generated types.
+	CRDGroupVersion = SchemeGroupVersion
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: SchemeGroupVersion}

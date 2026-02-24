@@ -5,6 +5,13 @@ import (
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 )
 
+const (
+	InstanceStateOk       = "OK"
+	InstanceStateCreating = "CREATING"
+	InstanceStateDeleting = "DELETING"
+	InstanceStateUpdating = "UPDATING"
+)
+
 type EnvironmentObservation struct {
 
 	// The ID of the associated environment broker.

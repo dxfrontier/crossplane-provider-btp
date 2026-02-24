@@ -11,6 +11,7 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	btpsubaccount "github.com/sap/crossplane-provider-btp/config/btp_subaccount"
 	apicredentials "github.com/sap/crossplane-provider-btp/config/btp_subaccount_api_credential"
+	envinstance "github.com/sap/crossplane-provider-btp/config/btp_subaccount_environment_instance"
 	directoryentitlement "github.com/sap/crossplane-provider-btp/config/directory_entitlement"
 	globaltrustconfig "github.com/sap/crossplane-provider-btp/config/globalaccount_trust_configuration"
 	servicebinding "github.com/sap/crossplane-provider-btp/config/subaccount_service_binding"
@@ -50,6 +51,7 @@ func GetProvider() *ujconfig.Provider {
 		servicebinding.Configure,
 		servicebroker.Configure,
 		apicredentials.Configure,
+		envinstance.Configure,
 	} {
 		configure(pc)
 	}

@@ -20,15 +20,6 @@ package v1alpha1
 
 import resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
-// GetItems of this CloudFoundryEnvironmentList.
-func (l *CloudFoundryEnvironmentList) GetItems() []resource.Managed {
-	items := make([]resource.Managed, len(l.Items))
-	for i := range l.Items {
-		items[i] = &l.Items[i]
-	}
-	return items
-}
-
 // GetItems of this KymaEnvironmentBindingList.
 func (l *KymaEnvironmentBindingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -49,6 +40,15 @@ func (l *KymaEnvironmentList) GetItems() []resource.Managed {
 
 // GetItems of this KymaModuleList.
 func (l *KymaModuleList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SubaccountEnvironmentInstanceList.
+func (l *SubaccountEnvironmentInstanceList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
