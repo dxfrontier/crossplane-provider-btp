@@ -232,7 +232,7 @@ func (mg *SubaccountEnvironmentInstance) GetProviderConfigReference() *xpv1.Prov
 	if mg.Spec.ProviderConfigReference == nil {
 		return nil
 	}
-	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name}
+	return &xpv1.ProviderConfigReference{Name: mg.Spec.ProviderConfigReference.Name, Kind: "ProviderConfig"}
 }
 
 // GetWriteConnectionSecretToReference of this SubaccountEnvironmentInstance.
@@ -264,7 +264,7 @@ func (mg *SubaccountEnvironmentInstance) SetProviderConfigReference(r *xpv1.Prov
 		mg.Spec.ProviderConfigReference = nil
 		return
 	}
-	mg.Spec.ProviderConfigReference = &xpv1.Reference{Name: r.Name}
+	mg.Spec.ProviderConfigReference = &xpv1.ProviderConfigReference{Name: r.Name, Kind: r.Kind}
 }
 
 // SetWriteConnectionSecretToReference of this SubaccountEnvironmentInstance.
