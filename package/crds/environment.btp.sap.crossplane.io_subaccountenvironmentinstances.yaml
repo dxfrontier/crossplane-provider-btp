@@ -16,7 +16,7 @@ spec:
     listKind: SubaccountEnvironmentInstanceList
     plural: subaccountenvironmentinstances
     singular: subaccountenvironmentinstance
-  scope: Cluster
+  scope: Namespaced
   versions:
   - additionalPrinterColumns:
     - jsonPath: .status.conditions[?(@.type=='Synced')].status
@@ -382,12 +382,9 @@ spec:
                   type: string
                 type: array
               providerConfigRef:
-                allOf:
-                - default:
-                    kind: ProviderConfig
-                    name: default
-                - default:
-                    name: default
+                default:
+                  kind: ProviderConfig
+                  name: default
                 description: |-
                   ProviderConfigReference specifies how the provider that will be used to
                   create, observe, update, and delete this managed resource should be
